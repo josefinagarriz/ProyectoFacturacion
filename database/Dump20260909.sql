@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `almacen` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `almacen`;
 -- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
 --
 -- Host: localhost    Database: almacen
@@ -21,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '28dccac1-a55a-11f1-8f78-d8bbc1211f9f:1-53';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '28dccac1-a55a-11f1-8f78-d8bbc1211f9f:1-95';
 
 --
 -- Table structure for table `clientes`
@@ -71,7 +73,7 @@ CREATE TABLE `detalle_factura` (
   `descuento` float DEFAULT NULL,
   `total` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +82,7 @@ CREATE TABLE `detalle_factura` (
 
 LOCK TABLES `detalle_factura` WRITE;
 /*!40000 ALTER TABLE `detalle_factura` DISABLE KEYS */;
-INSERT INTO `detalle_factura` VALUES (1,1,2,8,3000,10,21600),(2,1,3,1,500,5,475),(3,2,5,1,12000,0,12000),(4,2,8,3,15000,10,40500),(5,2,10,8,4600,15,31280),(6,3,4,24,2500,20,48000),(7,3,9,3,1000,2,2940),(8,3,2,5,3000,8,13800);
+INSERT INTO `detalle_factura` VALUES (1,1,2,8,3000,10,21600),(2,1,3,1,500,5,475),(3,2,5,1,12000,0,12000),(4,2,8,3,15000,10,40500),(5,2,10,8,4600,15,31280),(6,3,4,24,2500,20,48000),(7,3,9,3,1000,2,2940),(8,3,2,5,3000,8,13800),(9,4,2,20,3000,10,54000);
 /*!40000 ALTER TABLE `detalle_factura` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +105,7 @@ CREATE TABLE `empleados` (
   `departamento` varchar(50) DEFAULT NULL,
   `sueldo` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +134,7 @@ CREATE TABLE `facturas` (
   `descuento` float DEFAULT NULL,
   `total` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +143,7 @@ CREATE TABLE `facturas` (
 
 LOCK TABLES `facturas` WRITE;
 /*!40000 ALTER TABLE `facturas` DISABLE KEYS */;
-INSERT INTO `facturas` VALUES (1,1,2,'2026-09-01 23:59:33',22075,2,21633.5),(2,52,4,'2026-09-02 11:53:53',83780,2,82104.4),(3,54,3,'2026-09-02 11:55:32',64740,10,58266);
+INSERT INTO `facturas` VALUES (1,1,2,'2026-09-01 23:59:33',22075,2,21633.5),(2,52,4,'2026-09-02 11:53:53',83780,2,82104.4),(3,54,3,'2026-09-02 11:55:32',64740,10,58266),(4,1,2,'2026-09-03 13:48:36',54000,10,48600);
 /*!40000 ALTER TABLE `facturas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,8 +202,35 @@ CREATE TABLE `stock` (
 
 LOCK TABLES `stock` WRITE;
 /*!40000 ALTER TABLE `stock` DISABLE KEYS */;
-INSERT INTO `stock` VALUES (2,'arroz (1 kg)','alimento',3000,23),(3,'aserrín','material',500,9),(4,'huevos (12)','alimento',2500,11),(5,'mesa madera cuadrada','mueble',12000,1),(6,'alimento perro pedigree (1,5 kg)','mascotas',5000,42),(7,'aliemtno gato pedigree (1 kg)','mascotas',4000,25),(8,'sillón azul (2 m)','mueble',15000,7),(9,'haina leudante (1 kg)','alimento',1000,29),(10,'vidrio (2m x 1m)','material',4600,0);
+INSERT INTO `stock` VALUES (2,'arroz (1 kg)','alimento',3000,3),(3,'aserrín','material',500,9),(4,'huevos (12)','alimento',2500,11),(5,'mesa madera cuadrada','mueble',12000,1),(6,'alimento perro pedigree (1,5 kg)','mascotas',5000,42),(7,'aliemtno gato pedigree (1 kg)','mascotas',4000,25),(8,'sillón azul (2 m)','mueble',15000,7),(9,'haina leudante (1 kg)','alimento',1000,29),(10,'vidrio (2m x 1m)','material',4600,0);
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nivel_usuario` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usuario` (`usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'admin','admin123','admin'),(2,'gerente','gerente123','gerente'),(3,'empleado','empleado123','empleado');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -214,4 +243,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-02 12:17:40
+-- Dump completed on 2026-09-09 18:53:06
