@@ -1,7 +1,38 @@
 import tkinter as tk
 import ventana_principal
+from tkinter import messagebox
+from conexion.conexion import *
 
 def ingresar():
+    usuario=cajaUsuario.get()
+    contrasenia=cajaContrasenia.get()
+
+    conexion=conectar()
+    cursor=conexion.cursor()
+
+    sql="""SELECT usuario, password
+           FROM usuarios
+           WHERE usuario=%s"""
+
+    cursor.execute(sql, (usuario,))
+    resultado = cursor.fetchone()
+
+    cursor.close()
+    conexion.close()
+
+    #corrobora si el usuario existe
+    if resultado is None:
+        messagebox.showerror("Error", "Nombre de usuario o contraseña incorrecto")
+        return
+
+    #el usuario existe, ahora ve si la contraseña es correcta
+    usuarioBD = resultado[0]
+    contraseniaBD = resultado[1]
+
+    if contrasenia != contraseniaBD:
+        messagebox.showerror("Error", "Nombre de usuario o contraseña incorrecto")
+        return
+
     ventana.destroy()
     ventana_principal.abrir_ventana_principal()
 
