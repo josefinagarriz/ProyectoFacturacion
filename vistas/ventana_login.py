@@ -1,5 +1,7 @@
 import tkinter as tk
-import ventana_principal
+from admin import ventana_admin
+from gerente import ventana_gerente
+from empleado import ventana_empleado
 from tkinter import messagebox
 from conexion.conexion import *
 
@@ -10,7 +12,7 @@ def ingresar():
     conexion=conectar()
     cursor=conexion.cursor()
 
-    sql="""SELECT usuario, password
+    sql="""SELECT usuario, password, nivel_usuario
            FROM usuarios
            WHERE usuario=%s"""
 
@@ -28,13 +30,20 @@ def ingresar():
     #el usuario existe, ahora ve si la contraseña es correcta
     usuarioBD = resultado[0]
     contraseniaBD = resultado[1]
+    nivel = resultado[2]
 
-    if contrasenia != contraseniaBD:
+    if contrasenia != contraseniaBD: #si no, da error
         messagebox.showerror("Error", "Nombre de usuario o contraseña incorrecto")
         return
 
     ventana.destroy()
-    ventana_principal.abrir_ventana_principal()
+    if nivel == "admin":
+        ventana_admin.abrir_ventana_admin()
+    elif nivel == "gerente":
+        ventana_gerente.abrir_ventana_gerente()
+    elif nivel == "empleado":
+        ventana_empleado.abrir_ventana_empleado()
+
 
 #Ventana login
 ventana = tk.Tk()

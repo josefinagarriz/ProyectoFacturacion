@@ -1,8 +1,7 @@
 import tkinter as tk
+from vistas.ventana_base import crear_menu
 
-from ventana_base import crear_menu
-
-def abrir_ventana_principal():
+def abrir_ventana_empleado():
     #Ventana principal
     ventana = tk.Tk()
     ventana.title("Almacén :)")
@@ -15,7 +14,7 @@ def abrir_ventana_principal():
     fuenteTitulo = ("Segoe UI", 10, "bold")
 
     #titulo
-    tk.Label(ventana, text="Página principal", font=fuenteTitulo).grid(row=0,column=0, pady=10)
+    tk.Label(ventana, text="Página Principal Empleado", font=fuenteTitulo).grid(row=0,column=0, pady=10)
 
     #imagen
     frameImagen = tk.Frame(ventana) #frame para la imagen
