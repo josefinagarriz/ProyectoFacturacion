@@ -4,13 +4,13 @@ from ventana_base import crear_menu
 from conexion.conexion import *
 
 class VentanaStock(tk.Toplevel):
-    def __init__(self, parent):
+    def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
         self.title("Stock")
         self.geometry("650x500")
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Stock")
+        crear_menu(self, ventana_actual="Stock", nivel_usuario=nivel_usuario)
 
         # fuente reutilizable para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")

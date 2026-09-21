@@ -6,7 +6,7 @@ from conexion.conexion import *
 from tkinter import messagebox
 
 class VentanaFacturacion(tk.Toplevel):
-    def __init__(self, parent):
+    def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
         self.title("Facturación")
         self.geometry("750x800")
@@ -18,7 +18,7 @@ class VentanaFacturacion(tk.Toplevel):
         self.fecha = datetime.now()
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Facturación")
+        crear_menu(self, ventana_actual="Facturación", nivel_usuario=nivel_usuario)
 
         # fuentes reutilizables para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")

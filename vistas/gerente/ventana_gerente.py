@@ -28,7 +28,7 @@ def abrir_ventana_gerente():
     frameMenu = tk.Frame(ventana) #frame para los botones
     frameMenu.grid(row=2, column=0, pady=15)
 
-    crear_menu(frameMenu, fila=0)
+    crear_menu(frameMenu, fila=0, nivel_usuario="gerente")
 
     #abrir ventana
     ventana.mainloop()
