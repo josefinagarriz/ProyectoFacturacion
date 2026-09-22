@@ -16,7 +16,7 @@ class VentanaStock(tk.Toplevel):
         fuenteTitulo = ("Segoe UI", 10, "bold")
 
         # Campos de formulario stock
-        tk.Label(self, text="-Inserte información sobre stock:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
+        tk.Label(self, text="-Información sobre stock:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
 
         tk.Label(self, text="Descripción").grid(row=3, column=0, sticky="w", padx=(15, 2), pady=3)
         self.cajaDesc = tk.Entry(self, width=18)
@@ -35,14 +35,15 @@ class VentanaStock(tk.Toplevel):
         self.cajaCant.grid(row=4, column=3, sticky="w", pady=3)
 
         # Botones de stock
-        botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
-        botonInsertar.grid(row=5, column=0, padx=15, pady=3, sticky="w")
+        if nivel_usuario in ("admin", "gerente"):
+            botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
+            botonInsertar.grid(row=5, column=0, padx=15, pady=3, sticky="w")
 
-        botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
-        botonModificar.grid(row=5, column=1, padx=15, pady=3, sticky="w")
+            botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
+            botonModificar.grid(row=5, column=1, padx=15, pady=3, sticky="w")
 
-        botonEliminar = tk.Button(self, text="Eliminar", command=self.eliminar)
-        botonEliminar.grid(row=5, column=2, padx=15, pady=3, sticky="w")
+            botonEliminar = tk.Button(self, text="Eliminar", command=self.eliminar)
+            botonEliminar.grid(row=5, column=2, padx=15, pady=3, sticky="w")
 
         # separador
         ttk.Separator(self, orient="horizontal").grid(row=6, column=0, columnspan=7, sticky="ew", padx=10, pady=8)

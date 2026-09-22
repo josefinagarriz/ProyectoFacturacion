@@ -16,7 +16,7 @@ class VentanaClientes(tk.Toplevel):
         fuenteTitulo = ("Segoe UI", 10, "bold")
 
         #Campos de formulario cliente
-        tk.Label(self, text="-Inserte información sobre cliente:", font=fuenteTitulo).grid(row=2, column=0,columnspan=4, sticky="w", padx=10, pady=(12, 4))
+        tk.Label(self, text="-Información sobre cliente:", font=fuenteTitulo).grid(row=2, column=0,columnspan=4, sticky="w", padx=10, pady=(12, 4))
 
         tk.Label(self, text="Nombre").grid(row=3, column=0, sticky="w", padx=(15, 2), pady=3)
         self.cajaNombre = tk.Entry(self, width=18)
@@ -55,14 +55,15 @@ class VentanaClientes(tk.Toplevel):
         self.cajaEmail.grid(row=5, column=5, sticky="w", pady=3)
 
         # Botones de cliente
-        botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
-        botonInsertar.grid(row=6, column=0, padx=15, pady=3, sticky="w")
+        if nivel_usuario in ("admin", "gerente"):
+            botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
+            botonInsertar.grid(row=6, column=0, padx=15, pady=3, sticky="w")
 
-        botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
-        botonModificar.grid(row=6, column=1, padx=15, pady=3, sticky="w")
+            botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
+            botonModificar.grid(row=6, column=1, padx=15, pady=3, sticky="w")
 
-        botonEliminar = tk.Button(self, text="Eliminar", command=self.eliminar)
-        botonEliminar.grid(row=6, column=2, padx=15, pady=3, sticky="w")
+            botonEliminar = tk.Button(self, text="Eliminar", command=self.eliminar)
+            botonEliminar.grid(row=6, column=2, padx=15, pady=3, sticky="w")
 
         # separador
         ttk.Separator(self, orient="horizontal").grid(row=7, column=0, columnspan=7, sticky="ew", padx=10, pady=8)

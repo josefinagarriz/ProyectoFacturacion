@@ -19,10 +19,11 @@ def crear_menu(ventana, ventana_actual=None, fila=0, nivel_usuario=None):
     #boton solo para admin
     if nivel_usuario == "admin":
         botones.append(("Gerentes", abrir_gerentes))
+        botones.append(("Usuarios", abrir_usuarios))
 
     for columna, (texto, funcion) in enumerate(botones):
         if texto == ventana_actual:
-            tk.Button(ventana, text=texto).grid(row=fila, column=columna, padx=10)
+            tk.Button(ventana, text=texto).grid(row=fila, column=columna, padx=5)
         else:
             tk.Button(ventana, text=texto, command=lambda f=funcion, v=ventana, n=nivel_usuario: f(v, n)).grid(row=fila, column=columna, padx=10)
 
@@ -54,3 +55,7 @@ def abrir_facturacion(parent, nivel_usuario):
 def abrir_gerentes(parent, nivel_usuario):
     from vistas.admin.ventana_gerentes import VentanaGerentes
     VentanaGerentes(parent, nivel_usuario)
+
+def abrir_usuarios(parent, nivel_usuario):
+    from vistas.admin.ventana_usuarios import VentanaUsuarios
+    VentanaUsuarios(parent, nivel_usuario)
