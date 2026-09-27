@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from ventana_base import crear_menu
 from conexion.conexion import *
+from admin.ventana_datos_usuario import VentanaDatosUsuario
 
 
 class VentanaUsuarios(tk.Toplevel):
@@ -88,10 +89,10 @@ class VentanaUsuarios(tk.Toplevel):
             self.limpiar_cajas()
 
         elif nivel == "empleado":
-            print("abrir ventana para datos del empleado")
+            VentanaDatosUsuario(self,self.cajaNombre.get(),self.cajaContra.get(),nivel)
 
         elif nivel == "gerente":
-            print("abrir ventana para datos del gerente")
+            VentanaDatosUsuario(self,self.cajaNombre.get(),self.cajaContra.get(),nivel)
 
 
     def cargar_tabla(self):

@@ -55,8 +55,6 @@ class VentanaGerentes(tk.Toplevel):
         self.cajaSueldo.grid(row=5, column=5, sticky="w", pady=3)
 
         #Botones de empleados
-        botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
-        botonInsertar.grid(row=6, column=0, padx=15, pady=3, sticky="w")
 
         botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
         botonModificar.grid(row=6, column=1, padx=15, pady=3, sticky="w")
@@ -82,36 +80,6 @@ class VentanaGerentes(tk.Toplevel):
 
         self.cargar_tabla() #para que al abrir la ventana, aparezca lo que ya está en la tabla
 
-    #funcion para guardar empleados en tabla con boton insertar
-    def insertar(self):
-        conex = conectar()
-        cursor = conex.cursor()
-        sql = """INSERT INTO empleados(nombre, apellido, dni, telefono, email, direccion, edad, departamento, sueldo)
-                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-
-        valores=(
-            self.cajaNombre.get(),
-            self.cajaApellido.get(),
-            self.cajaDNI.get(),
-            self.cajaTelef.get(),
-            self.cajaEmail.get(),
-            self.cajaDire.get(),
-            int(self.cajaEdad.get()),
-            self.cajaDep.get(),
-            float(self.cajaSueldo.get())
-        )
-
-        cursor.execute(sql, valores)
-        conex.commit()
-
-        cursor.close()
-        conex.close()
-
-        # insertar nueva fila en tabla
-        self.cargar_tabla()
-
-        # limpiar las cajas después de insertar
-        self.limpiar_cajas()
 
     def cargar_tabla(self):
         for fila in self.tabla.get_children():
