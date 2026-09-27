@@ -14,7 +14,8 @@ def crear_menu(ventana, ventana_actual=None, fila=0, nivel_usuario=None):
     #botones solo para admin y gerente
     if nivel_usuario in ("admin", "gerente"):
         botones.insert(0, ("Empleados", abrir_empleados))
-        botones.insert(3, ("Proveedores", abrir_proveedor))
+        botones.insert(1, ("Proveedores", abrir_proveedor))
+        botones.insert(2, ("Entradas", abrir_entradas))
 
     #boton solo para admin
     if nivel_usuario == "admin":
@@ -59,3 +60,7 @@ def abrir_gerentes(parent, nivel_usuario):
 def abrir_usuarios(parent, nivel_usuario):
     from vistas.admin.ventana_usuarios import VentanaUsuarios
     VentanaUsuarios(parent, nivel_usuario)
+
+def abrir_entradas(parent, nivel_usuario):
+    from ventana_entradas import VentanaEntradas
+    VentanaEntradas(parent, nivel_usuario)
