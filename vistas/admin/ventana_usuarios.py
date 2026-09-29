@@ -139,14 +139,12 @@ class VentanaUsuarios(tk.Toplevel):
 
         sql = """UPDATE usuarios \
                  SET usuario       = %s, \
-                     password      = %s, \
-                     nivel_usuario = %s
+                     password      = %s
                  WHERE id = %s """
 
         datos = (
             self.cajaNombre.get(),
             self.cajaContra.get(),
-            self.cajaNivel.get(),
             id
         )
 
@@ -169,25 +167,55 @@ class VentanaUsuarios(tk.Toplevel):
 
         fila = seleccion[0]
         valores = self.tabla.item(fila, "values")
-        id = valores[0]
+        id_usuario = valores[0]
+
         conex = conectar()
         cursor = conex.cursor()
-        sql = """DELETE \
-                 FROM usuarios
-                 WHERE id = %s """
 
-        cursor.execute(sql, (id,))
-        conex.commit()
-        cursor.close()
-        conex.close()
-        self.cargar_tabla()
+        try:
+            #primero obtenemos el nivel del usuario
+            sql_nivel = """SELECT nivel_usuario
+                           FROM usuarios
+                           WHERE id = %s"""
 
-        # limpiar las cajas después de eliminar
-        self.limpiar_cajas()
+            cursor.execute(sql_nivel, (id_usuario,))
+            resultado = cursor.fetchone()
 
-    # funcion para limpiar cajas
+            if resultado:
+                nivel = resultado[0]
+
+                #Si es empleado, eliminar sus datos
+                if nivel == "empleado":
+                    sql_empleado = """DELETE FROM empleados
+                                      WHERE id_usuario = %s"""
+                    cursor.execute(sql_empleado, (id_usuario,))
+
+                #Si es gerente, eliminar sus datos
+                elif nivel == "gerente":
+                    sql_gerente = """DELETE FROM gerentes
+                                     WHERE id_usuario = %s"""
+                    cursor.execute(sql_gerente, (id_usuario,))
+
+            #Finalmente eliminar el usuario
+            sql_usuario = """DELETE FROM usuarios
+                             WHERE id = %s"""
+
+            cursor.execute(sql_usuario, (id_usuario,))
+            conex.commit()
+
+            self.cargar_tabla()
+            self.limpiar_cajas()
+
+        except Exception as e:
+            conex.rollback()
+            print("Error:", e)
+
+        finally:
+            cursor.close()
+            conex.close()
+
+    #funcion para limpiar cajas
     def limpiar_cajas(self):
         self.cajaNombre.delete(0, tk.END)
         self.cajaContra.delete(0, tk.END)
         self.cajaNivel.delete(0, tk.END)
-
