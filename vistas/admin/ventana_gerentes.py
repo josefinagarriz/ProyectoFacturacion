@@ -15,8 +15,8 @@ class VentanaGerentes(tk.Toplevel):
         # fuente reutilizable para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")
 
-        #Campos del formulario usuario
-        tk.Label(self, text="-Inserte información sobre usuario:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
+        #Campos del formulario gerente
+        tk.Label(self, text="-Inserte información sobre gerente:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
 
         tk.Label(self, text="Nombre").grid(row=3, column=0, sticky="w", padx=(10, 2), pady=3)
         self.cajaNombre = tk.Entry(self, width=18)
@@ -54,7 +54,7 @@ class VentanaGerentes(tk.Toplevel):
         self.cajaSueldo = tk.Entry(self, width=18)
         self.cajaSueldo.grid(row=5, column=5, sticky="w", pady=3)
 
-        #Botones de empleados
+        #Botones de gerentes
 
         botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
         botonModificar.grid(row=6, column=1, padx=15, pady=3, sticky="w")
@@ -65,8 +65,8 @@ class VentanaGerentes(tk.Toplevel):
         #separador
         ttk.Separator(self, orient="horizontal").grid(row=7, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
 
-        #tabla de empleados
-        tk.Label(self, text="-Tabla de empleados:", font=fuenteTitulo).grid(row=8, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
+        #tabla de gerentes
+        tk.Label(self, text="-Tabla de gerentes:", font=fuenteTitulo).grid(row=8, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
 
         columnas=("Id", "Nombre", "Apellido", "DNI", "Teléfono", "Email", "Dirección", "Edad", "Departamento", "Sueldo")
         self.tabla= ttk.Treeview(self, columns=columnas, show="headings", height=10)
@@ -87,7 +87,7 @@ class VentanaGerentes(tk.Toplevel):
         conex = conectar()
         cursor = conex.cursor()
         cursor.execute("""SELECT id,nombre,apellido,dni,telefono,email,direccion,edad,departamento,sueldo
-                          FROM empleados""")
+                          FROM gerentes""")
         registros = cursor.fetchall()
         for registro in registros:
             self.tabla.insert("", "end", values=registro)
@@ -130,7 +130,7 @@ class VentanaGerentes(tk.Toplevel):
         conex = conectar()
         cursor = conex.cursor()
 
-        sql = """UPDATE empleados SET nombre = %s, apellido = %s, dni = %s, telefono = %s, email = %s, direccion = %s, edad = %s, departamento = %s, sueldo = %s
+        sql = """UPDATE gerentes SET nombre = %s, apellido = %s, dni = %s, telefono = %s, email = %s, direccion = %s, edad = %s, departamento = %s, sueldo = %s
                  WHERE id = %s """
 
         datos=(
@@ -168,7 +168,7 @@ class VentanaGerentes(tk.Toplevel):
         id = valores[0]
         conex = conectar()
         cursor = conex.cursor()
-        sql = """DELETE FROM empleados
+        sql = """DELETE FROM gerentes
                  WHERE id = %s """
 
         cursor.execute(sql, (id,))
