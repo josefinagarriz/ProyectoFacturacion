@@ -13,20 +13,50 @@ def crear_menu(ventana, ventana_actual=None, fila=0, nivel_usuario=None):
 
     #botones solo para admin y gerente
     if nivel_usuario in ("admin", "gerente"):
-        botones.insert(0, ("Empleados", abrir_empleados))
-        botones.insert(1, ("Proveedores", abrir_proveedor))
-        botones.insert(2, ("Entradas", abrir_entradas))
+        botones.extend([
+            ("Empleados", abrir_empleados),
+            ("Proveedores", abrir_proveedor),
+            ("Entradas", abrir_entradas),
+        ])
 
     #boton solo para admin
     if nivel_usuario == "admin":
-        botones.append(("Gerentes", abrir_gerentes))
-        botones.append(("Usuarios", abrir_usuarios))
+        botones.extend([
+            ("Gerentes", abrir_gerentes),
+            ("Usuarios", abrir_usuarios),
+        ])
 
-    for columna, (texto, funcion) in enumerate(botones):
+    # Organizar los botones en filas de 4
+    columnas = 4
+
+    for i, (texto, funcion) in enumerate(botones):
+        fila_boton = fila + i // columnas
+        columna_boton = i % columnas
+
+        boton = tk.Button(
+            ventana,
+            text=texto,
+            width=12,
+            bg="white",
+            activebackground="#e6e6e6",
+            command=lambda f=funcion, v=ventana, n=nivel_usuario: f(v, n)
+        )
+
         if texto == ventana_actual:
-            tk.Button(ventana, text=texto).grid(row=fila, column=columna, padx=5)
-        else:
-            tk.Button(ventana, text=texto, command=lambda f=funcion, v=ventana, n=nivel_usuario: f(v, n)).grid(row=fila, column=columna, padx=10)
+            boton.config(state="disabled")
+
+        boton.grid(
+            row=fila_boton,
+            column=columna_boton,
+            padx=10,
+            pady=5,
+            sticky="ew"
+        )
+
+        # Hacer que las 4 columnas tengan el mismo espacio
+    for columna in range(columnas):
+        ventana.grid_columnconfigure(columna, weight=1)
+
 
 #funciones para abrir cada ventana
 def abrir_empleados(parent, nivel_usuario):
