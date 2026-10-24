@@ -43,32 +43,42 @@ def ingresar():
         ventana_gerente.abrir_ventana_gerente()
     elif nivel == "empleado":
         ventana_empleado.abrir_ventana_empleado()
+    """
+    elif nivel == "cliente":
+        ventana_cliente.abrir_ventana_cliente()
+    elif nivel == "proveedor":
+        ventana_proveedor.abrir_ventana_proveedor()"""
 
 
 #Ventana login
 ventana = tk.Tk()
 ventana.title("Login")
 ventana.geometry("600x400")
+ventana.configure(background="lightblue")
 
 # fuente reutilizable para dar jerarquía visual
-fuenteTitulo = ("Segoe UI", 10, "bold")
+fuenteTitulo = ("Segoe UI", 15, "bold")
+
+# Contenedor para centrar el login
+frameLogin = tk.Frame(ventana, background="lightgreen", relief="ridge", bd=5)
+frameLogin.place(relx=0.5, rely=0.5, anchor="center")
 
 #titulo
-tk.Label(ventana, text="Ingresar\ncredenciales", font=fuenteTitulo).grid(row=0,column=1)
+tk.Label(frameLogin, text="LOGIN", font=fuenteTitulo, background="lightgreen").grid(row=0, column=0, columnspan=2, pady=(15, 15))
 
 #usuario
-tk.Label(ventana, text="Usuario:").grid(row=1,column=0)
-cajaUsuario = tk.Entry(width=18)
-cajaUsuario.grid(row=1, column=2)
+tk.Label(frameLogin, text="Usuario", background="lightgreen").grid(row=1, column=0, padx=10, pady=8, sticky="e")
+cajaUsuario = tk.Entry(frameLogin, width=22)
+cajaUsuario.grid(row=1, column=1, padx=10, pady=8)
 
 #contraseña
-tk.Label(ventana, text="Contraseña:").grid(row=2,column=0)
-cajaContrasenia = tk.Entry(width=18, show="*")
-cajaContrasenia.grid(row=2, column=2)
+tk.Label(frameLogin, text="Contraseña", background="lightgreen").grid(row=2, column=0, padx=10, pady=8, sticky="e")
+cajaContrasenia = tk.Entry(frameLogin, width=22, show="*")
+cajaContrasenia.grid(row=2, column=1, padx=10, pady=8)
 
 #ingresar
-botonIngresar = tk.Button(text="Ingresar", command=ingresar)
-botonIngresar.grid(row=3, column=1)
+botonIngresar = tk.Button(frameLogin, text="INGRESAR", command=ingresar, background="white")
+botonIngresar.grid(row=3, column=0, columnspan=2, pady=(15, 15))
 
 #abrir ventana
 ventana.mainloop()
