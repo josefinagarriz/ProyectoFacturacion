@@ -54,11 +54,11 @@ def abrir_facturacion(parent, nivel_usuario):
     VentanaFacturacion(parent, nivel_usuario)
 
 def abrir_gerentes(parent, nivel_usuario):
-    from vistas.admin.ventana_gerentes import VentanaGerentes
+    from ventana_gerentes import VentanaGerentes
     VentanaGerentes(parent, nivel_usuario)
 
 def abrir_usuarios(parent, nivel_usuario):
-    from vistas.admin.ventana_usuarios import VentanaUsuarios
+    from ventana_usuarios import VentanaUsuarios
     VentanaUsuarios(parent, nivel_usuario)
 
 def abrir_entradas(parent, nivel_usuario):

@@ -1,7 +1,9 @@
 import tkinter as tk
-from admin import ventana_admin
-from gerente import ventana_gerente
-from empleado import ventana_empleado
+import ventana_admin
+import ventana_gerente
+import ventana_empleado
+import ventana_cliente
+import ventana_proveedor
 from tkinter import messagebox
 from conexion.conexion import *
 
@@ -43,11 +45,10 @@ def ingresar():
         ventana_gerente.abrir_ventana_gerente()
     elif nivel == "empleado":
         ventana_empleado.abrir_ventana_empleado()
-    """
     elif nivel == "cliente":
         ventana_cliente.abrir_ventana_cliente()
     elif nivel == "proveedor":
-        ventana_proveedor.abrir_ventana_proveedor()"""
+        ventana_proveedor.abrir_ventana_proveedor()
 
 
 #Ventana login

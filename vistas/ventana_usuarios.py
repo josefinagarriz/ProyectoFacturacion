@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from ventana_base import crear_menu
 from conexion.conexion import *
-from admin.ventana_datos_usuario import VentanaDatosUsuario
+from ventana_datos_usuario import VentanaDatosUsuario
 
 
 class VentanaUsuarios(tk.Toplevel):
