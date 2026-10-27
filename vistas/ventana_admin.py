@@ -33,5 +33,15 @@ def abrir_ventana_admin():
 
     crear_menu(frameMenu, fila=0, nivel_usuario="admin")
 
+    # Botón cerrar sesión
+    botonLogout = tk.Button(frame,text="Cerrar sesión",command= lambda: cerrar_sesion(ventana),background="white",width=15)
+    botonLogout.grid(row=3, column=0, pady=15)
+
     # abrir ventana
     ventana.mainloop()
+
+
+def cerrar_sesion(ventana):
+    ventana.destroy()
+    import ventana_login
+    ventana_login.abrir_ventana_login()

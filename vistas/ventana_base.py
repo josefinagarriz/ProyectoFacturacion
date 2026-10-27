@@ -6,9 +6,9 @@ def crear_menu(ventana, ventana_actual=None, fila=0, nivel_usuario=None):
     #botones fijos que se muestran para todos los usuarios
     botones = [
         ("Clientes", abrir_clientes),
-        ("Stock", abrir_stock),
-        ("Facturas", abrir_facturas),
-        ("Facturación", abrir_facturacion),
+        ("Productos", abrir_productos),
+        ("Ventas", abrir_ventas),
+        ("Vender", abrir_vender),
     ]
 
     #botones solo para admin y gerente
@@ -67,21 +67,21 @@ def abrir_clientes(parent, nivel_usuario):
     from ventana_clientes import VentanaClientes
     VentanaClientes(parent, nivel_usuario)
 
-def abrir_stock(parent, nivel_usuario):
-    from ventana_stock import VentanaStock
-    VentanaStock(parent, nivel_usuario)
+def abrir_productos(parent, nivel_usuario):
+    from ventana_productos import VentanaProductos
+    VentanaProductos(parent, nivel_usuario)
 
 def abrir_proveedor(parent, nivel_usuario):
     from ventana_proveedores import VentanaProveedores
     VentanaProveedores(parent, nivel_usuario)
 
-def abrir_facturas(parent, nivel_usuario):
-    from ventana_facturas import VentanaFacturas
-    VentanaFacturas(parent, nivel_usuario)
+def abrir_ventas(parent, nivel_usuario):
+    from ventana_ventas import VentanaVentas
+    VentanaVentas(parent, nivel_usuario)
 
-def abrir_facturacion(parent, nivel_usuario):
-    from ventana_facturacion import VentanaFacturacion
-    VentanaFacturacion(parent, nivel_usuario)
+def abrir_vender(parent, nivel_usuario):
+    from ventana_vender import VentanaVender
+    VentanaVender(parent, nivel_usuario)
 
 def abrir_gerentes(parent, nivel_usuario):
     from ventana_gerentes import VentanaGerentes

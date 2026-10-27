@@ -3,20 +3,20 @@ from tkinter import ttk
 from ventana_base import crear_menu
 from conexion.conexion import *
 
-class VentanaFacturas(tk.Toplevel):
+class VentanaVentas(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
-        self.title("Facturas")
+        self.title("Ventas")
         self.geometry("800x600")
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Facturas", nivel_usuario=nivel_usuario)
+        crear_menu(self, ventana_actual="Ventas", nivel_usuario=nivel_usuario)
 
         # fuente reutilizable para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")
 
-        # tabla de facturas
-        tk.Label(self, text="-Tabla de facturas:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
+        # tabla de ventas
+        tk.Label(self, text="-Tabla de ventas:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
 
         columnas = ("Id", "Fecha","Empleado", "Cliente", "Subtotal", "Descuento", "Total")
         self.tabla = ttk.Treeview(self, columns=columnas, show="headings", height=10)
@@ -25,9 +25,9 @@ class VentanaFacturas(tk.Toplevel):
             self.tabla.column(col, width=100)
         self.tabla.grid(row=3, column=0, columnspan=7, padx=10, sticky="ew")
 
-        self.tabla.bind("<<TreeviewSelect>>",self.seleccionar_factura)
+        self.tabla.bind("<<TreeviewSelect>>",self.seleccionar_venta)
 
-        self.cargar_facturas()
+        self.cargar_ventas()
 
         # separador
         ttk.Separator(self, orient="horizontal").grid(row=4, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
@@ -42,7 +42,7 @@ class VentanaFacturas(tk.Toplevel):
             self.tablaDetalle.column(col, width=100)
         self.tablaDetalle.grid(row=6, column=0, columnspan=7, padx=10, sticky="ew")
 
-    def cargar_facturas(self):
+    def cargar_ventas(self):
 
         conex = conectar()
         cursor = conex.cursor()
@@ -60,7 +60,7 @@ class VentanaFacturas(tk.Toplevel):
         for registro in registros:
             self.tabla.insert("","end",values=registro)
 
-    def seleccionar_factura(self, event):
+    def seleccionar_venta(self, event):
         seleccion = self.tabla.selection()
 
         if not seleccion:
@@ -73,11 +73,11 @@ class VentanaFacturas(tk.Toplevel):
             "values"
         )
 
-        idFactura = valores[0]
+        idVenta = valores[0]
 
-        self.cargar_detalles(idFactura)
+        self.cargar_detalles(idVenta)
 
-    def cargar_detalles(self, idFactura):
+    def cargar_detalles(self, idVenta):
 
         # Primero limpiar la tabla de detalles
         for fila in self.tablaDetalle.get_children():
@@ -91,7 +91,7 @@ class VentanaFacturas(tk.Toplevel):
               FROM detalle_factura 
               WHERE id_factura = %s """
 
-        cursor.execute(sql, (idFactura,))
+        cursor.execute(sql, (idVenta,))
         registros = cursor.fetchall()
 
         cursor.close()

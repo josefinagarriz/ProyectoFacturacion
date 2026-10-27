@@ -3,20 +3,20 @@ from tkinter import ttk
 from ventana_base import crear_menu
 from conexion.conexion import *
 
-class VentanaStock(tk.Toplevel):
+class VentanaProductos(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
-        self.title("Stock")
+        self.title("Productos")
         self.geometry("650x500")
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Stock", nivel_usuario=nivel_usuario)
+        crear_menu(self, ventana_actual="Productos", nivel_usuario=nivel_usuario)
 
         # fuente reutilizable para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")
 
-        # Campos de formulario stock
-        tk.Label(self, text="-Información sobre stock:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
+        # Campos de formulario productos
+        tk.Label(self, text="-Información sobre productos:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
 
         tk.Label(self, text="Descripción").grid(row=3, column=0, sticky="w", padx=(15, 2), pady=3)
         self.cajaDesc = tk.Entry(self, width=18)
@@ -34,7 +34,7 @@ class VentanaStock(tk.Toplevel):
         self.cajaCant = tk.Entry(self, width=18)
         self.cajaCant.grid(row=4, column=3, sticky="w", pady=3)
 
-        # Botones de stock
+        # Botones de producto
         if nivel_usuario in ("admin", "gerente"):
             botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
             botonInsertar.grid(row=5, column=0, padx=15, pady=3, sticky="w")
@@ -48,8 +48,8 @@ class VentanaStock(tk.Toplevel):
         # separador
         ttk.Separator(self, orient="horizontal").grid(row=6, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
 
-        # tabla de stock
-        tk.Label(self, text="-Tabla de stock:", font=fuenteTitulo).grid(row=7, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
+        # tabla de producto
+        tk.Label(self, text="-Tabla de producto:", font=fuenteTitulo).grid(row=7, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
         columnas = ("Id", "Descripción", "Tipo", "Precio", "Cantidad")
         self.tabla = ttk.Treeview(self, columns=columnas, show="headings", height=10)
         for col in columnas:
@@ -62,7 +62,7 @@ class VentanaStock(tk.Toplevel):
 
         self.cargar_tabla()  # para que al abrir la ventana, aparezca lo que ya está en la tabla
 
-    # funcion para guardar stock en tabla con boton insertar
+    # funcion para guardar producto en tabla con boton insertar
     def insertar(self):
         conex = conectar()
         cursor = conex.cursor()

@@ -5,27 +5,27 @@ from ventana_base import crear_menu
 from conexion.conexion import *
 from tkinter import messagebox
 
-class VentanaFacturacion(tk.Toplevel):
+class VentanaVender(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
-        self.title("Facturación")
+        self.title("vender")
         self.geometry("750x800")
         #variable global para subtotal
         self.subtotal=0
-        #variables globales para después agregar en factura
+        #variables globales para después agregar en vender
         self.idEmpleado = None
         self.idCliente = None
         self.fecha = datetime.now()
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Facturación", nivel_usuario=nivel_usuario)
+        crear_menu(self, ventana_actual="Vender", nivel_usuario=nivel_usuario)
 
         # fuentes reutilizables para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")
         fuenteTotal = ("Segoe UI", 12, "bold")
 
-        # Campos de facturación
-        tk.Label(self, text="Datos de facturación", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
+        # Campos de vender
+        tk.Label(self, text="Datos de venta", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
 
         tk.Label(self, text="Id Empleado").grid(row=3, column=0, sticky="w", padx=(15, 2), pady=3)
         self.cajaEmpleado = tk.Entry(self, width=18)
@@ -40,7 +40,7 @@ class VentanaFacturacion(tk.Toplevel):
 
         ttk.Separator(self, orient="horizontal").grid(row=5, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
 
-        #info sobre los productos en factura
+        #info sobre los productos en venta
         tk.Label(self, text="Producto a comprar", font=fuenteTitulo).grid(row=6, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
 
         tk.Label(self, text="Id Stock").grid(row=7, column=0, sticky="w", padx=(10, 2), pady=3)
@@ -59,7 +59,7 @@ class VentanaFacturacion(tk.Toplevel):
         self.cajaDesc = tk.Entry(self, width=18)
         self.cajaDesc.grid(row=7, column=5, sticky="w", pady=3)
 
-        #Botones de facturación
+        #Botones de vender
         botonInsertar = tk.Button(self, text="Insertar producto", command=self.insertar)
         botonInsertar.grid(row=8, column=0, columnspan=2, padx=5, pady=3, sticky="w")
 
@@ -71,11 +71,11 @@ class VentanaFacturacion(tk.Toplevel):
 
         ttk.Separator(self, orient="horizontal").grid(row=9, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
 
-        #info de factura
-        tk.Label(self, text="Resumen de factura", font=fuenteTitulo).grid(row=10, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
+        #info de vender
+        tk.Label(self, text="Resumen de venta", font=fuenteTitulo).grid(row=10, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
 
-        tk.Label(self, text="Factura:").grid(row=11, column=0, sticky="w", padx=(10, 2), pady=3)
-        self.labelFactura = tk.Label(self, text=self.obtenerProximoIdFactura())
+        tk.Label(self, text="Factura de venta:").grid(row=11, column=0, sticky="w", padx=(10, 2), pady=3)
+        self.labelFactura = tk.Label(self, text=self.obtenerProximoIdVenta())
         self.labelFactura.grid(row=11, column=1, sticky="w", pady=3)
 
         tk.Label(self, text="Empleado:").grid(row=11, column=2, sticky="w", padx=(15, 2), pady=3)
@@ -92,8 +92,8 @@ class VentanaFacturacion(tk.Toplevel):
 
         ttk.Separator(self, orient="horizontal").grid(row=13, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
 
-        # tabla de facturación
-        tk.Label(self, text="Tabla de facturación", font=fuenteTitulo).grid(row=14, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
+        # tabla de vender
+        tk.Label(self, text="Tabla de ventas", font=fuenteTitulo).grid(row=14, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
 
         columnas = ("Id Stock", "Descripción", "Cantidad", "Valor Unidad $", "Descuento %", "Total $")
         self.tabla = ttk.Treeview(self, columns=columnas, show="headings", height=10)
@@ -116,14 +116,14 @@ class VentanaFacturacion(tk.Toplevel):
         self.cajaSubDesc = tk.Entry(self, width=18)
         self.cajaSubDesc.grid(row=17, column=3, sticky="w", pady=(2, 12))
 
-        botonDesc = tk.Button(self, text="Aplicar y guardar factura", command=self.guardarFactura)
+        botonDesc = tk.Button(self, text="Aplicar y guardar venta", command=self.guardarVenta)
         botonDesc.grid(row=18, column=0, padx=10, pady=(2, 12), sticky="w")
 
         tk.Label(self, text="Total Final:").grid(row=19, column=0, sticky="e", padx=(10, 2), pady=(2, 12))
         self.labelTotalFin = tk.Label(self, text="$0", font=fuenteTotal, fg="#1a7f37")
         self.labelTotalFin.grid(row=19, column=1, sticky="w", pady=(2, 12))
 
-    #funcion para guardar info de factura con boton aceptar
+    #funcion para guardar info de venta con boton aceptar
     def aceptar(self):
         empleado = self.cajaEmpleado.get()
         cliente = self.cajaCliente.get()
@@ -157,11 +157,11 @@ class VentanaFacturacion(tk.Toplevel):
         self.idEmpleado = empleado
         self.idCliente = cliente
 
-        # insertar info de factura
+        # insertar info de venta
         self.labelEmpleado.config(text=f"{empleado}")
         self.labelCliente.config(text=f"{cliente}")
 
-    #funcion para guardar facturacion de productos en tabla con boton insertar
+    #funcion para guardar venta de productos en tabla con boton insertar
     def insertar(self):
         stock = self.cajaStock.get()
         cant = int(self.cajaCant.get())
@@ -214,7 +214,7 @@ class VentanaFacturacion(tk.Toplevel):
         self.limpiar_cajas()
 
     #Función para aplicar descuento a subtotal
-    def guardarFactura(self):
+    def guardarVenta(self):
         # Comprobar que empleado y cliente fueron aceptados
         if self.idEmpleado is None or self.idCliente is None:
             messagebox.showerror(
@@ -227,7 +227,7 @@ class VentanaFacturacion(tk.Toplevel):
         if not self.tabla.get_children():
             messagebox.showerror(
                 "Error",
-                "La factura no tiene productos."
+                "La venta no tiene productos."
             )
             return
 
@@ -239,7 +239,7 @@ class VentanaFacturacion(tk.Toplevel):
 
         try:
 
-            #guardar factura
+            #guardar venta
             sqlFactura = """
                          INSERT INTO facturas (id_empleado, id_cliente, fecha, subtotal, descuento, total)
                          VALUES (%s, %s, %s, %s, %s, %s) """
@@ -308,17 +308,17 @@ class VentanaFacturacion(tk.Toplevel):
             self.labelTotalFin.config(text=f"${totalFin:.2f}")
 
             messagebox.showinfo(
-                "Factura guardada",f"Factura {idFactura} guardada correctamente.")
+                "Venta guardada",f"Venta {idFactura} guardada correctamente.")
 
             self.limpiar_factura()
 
         except Exception as error:
 
-            # Deshacer factura, detalles y cambios de stock
+            # Deshacer venta, detalles y cambios de stock
             conex.rollback()
             messagebox.showerror(
                 "Error",
-                f"No se pudo guardar la factura:\n{error}")
+                f"No se pudo guardar la venta:\n{error}")
 
         finally:
             cursor.close()
@@ -417,13 +417,13 @@ class VentanaFacturacion(tk.Toplevel):
         self.subtotal += float(valores[5])
         self.labelSub.config(text=f"{self.subtotal:.2f}")
 
-    #funcion para limpiar las cajas de producto (no toca factura/empleado/cliente)
+    #funcion para limpiar las cajas de producto (no toca venta/empleado/cliente)
     def limpiar_cajas(self):
         self.cajaStock.delete(0, tk.END)
         self.cajaCant.delete(0, tk.END)
         self.cajaDesc.delete(0, tk.END)
 
-    def obtenerProximoIdFactura(self):
+    def obtenerProximoIdVenta(self):
         conex = conectar()
         cursor = conex.cursor()
 
@@ -467,13 +467,13 @@ class VentanaFacturacion(tk.Toplevel):
         self.labelEmpleado.config(text="-")
         self.labelCliente.config(text="-")
 
-        # Nueva fecha para la próxima factura
+        # Nueva fecha para la próxima venta
         self.fecha = datetime.now()
         self.labelFecha.config(
             text=f"{self.fecha:%d/%m/%Y %H:%M}"
         )
 
-        # Mostrar próximo número de factura
+        # Mostrar próximo número de venta
         self.labelFactura.config(
-            text=self.obtenerProximoIdFactura()
+            text=self.obtenerProximoIdVenta()
         )

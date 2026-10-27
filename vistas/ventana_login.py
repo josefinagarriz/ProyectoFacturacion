@@ -7,6 +7,44 @@ import ventana_proveedor
 from tkinter import messagebox
 from conexion.conexion import *
 
+def abrir_ventana_login():
+    global ventana, cajaUsuario, cajaContrasenia
+
+    # Ventana login
+    ventana = tk.Tk()
+    ventana.title("Login")
+    ventana.geometry("600x500")
+    ventana.configure(background="lightblue")
+
+    # fuente reutilizable para dar jerarquía visual
+    fuenteTitulo = ("Segoe UI", 15, "bold")
+
+    # Contenedor para centrar el login
+    frameLogin = tk.Frame(ventana, background="lightgreen", relief="ridge", bd=5)
+    frameLogin.place(relx=0.5, rely=0.5, anchor="center")
+
+    # titulo
+    tk.Label(frameLogin, text="LOGIN", font=fuenteTitulo, background="lightgreen").grid(row=0, column=0, columnspan=2,
+                                                                                        pady=15)
+    #usuario
+    tk.Label(frameLogin, text="Usuario", background="lightgreen").grid(row=1, column=0, padx=10, pady=8, sticky="e")
+    cajaUsuario = tk.Entry(frameLogin, width=22)
+    cajaUsuario.grid(row=1, column=1, padx=10, pady=8)
+
+    #contraseña
+    tk.Label(frameLogin, text="Contraseña", background="lightgreen").grid(row=2, column=0, padx=10, pady=8, sticky="e")
+    cajaContrasenia = tk.Entry(frameLogin, width=22, show="*")
+    cajaContrasenia.grid(row=2, column=1, padx=10, pady=8)
+
+    # ingresar
+    botonIngresar = tk.Button(frameLogin, text="INGRESAR", command=ingresar, background="white")
+    botonIngresar.grid(row=3, column=0, columnspan=2, pady=15)
+
+    # abrir ventana
+    ventana.mainloop()
+
+
+
 def ingresar():
     usuario=cajaUsuario.get()
     contrasenia=cajaContrasenia.get()
@@ -50,35 +88,6 @@ def ingresar():
     elif nivel == "proveedor":
         ventana_proveedor.abrir_ventana_proveedor()
 
-#Ventana login
-ventana = tk.Tk()
-ventana.title("Login")
-ventana.geometry("600x500")
-ventana.configure(background="lightblue")
 
-# fuente reutilizable para dar jerarquía visual
-fuenteTitulo = ("Segoe UI", 15, "bold")
-
-# Contenedor para centrar el login
-frameLogin = tk.Frame(ventana, background="lightgreen", relief="ridge", bd=5)
-frameLogin.place(relx=0.5, rely=0.5, anchor="center")
-
-#titulo
-tk.Label(frameLogin, text="LOGIN", font=fuenteTitulo, background="lightgreen").grid(row=0, column=0, columnspan=2, pady=15)
-
-#usuario
-tk.Label(frameLogin, text="Usuario", background="lightgreen").grid(row=1, column=0, padx=10, pady=8, sticky="e")
-cajaUsuario = tk.Entry(frameLogin, width=22)
-cajaUsuario.grid(row=1, column=1, padx=10, pady=8)
-
-#contraseña
-tk.Label(frameLogin, text="Contraseña", background="lightgreen").grid(row=2, column=0, padx=10, pady=8, sticky="e")
-cajaContrasenia = tk.Entry(frameLogin, width=22, show="*")
-cajaContrasenia.grid(row=2, column=1, padx=10, pady=8)
-
-#ingresar
-botonIngresar = tk.Button(frameLogin, text="INGRESAR", command=ingresar, background="white")
-botonIngresar.grid(row=3, column=0, columnspan=2, pady=15)
-
-#abrir ventana
-ventana.mainloop()
+if __name__ == "__main__":
+    abrir_ventana_login()
