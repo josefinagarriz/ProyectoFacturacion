@@ -17,7 +17,7 @@ def abrir_ventana_cliente():
     frame.place(relx=0.5, rely=0.5, anchor="center")
 
     #titulo
-    tk.Label(frame, text="Página Principal", font=fuenteTitulo, background="lightblue").grid(row=0,column=0, pady=15)
+    tk.Label(frame, text="Página Principal Cliente", font=fuenteTitulo, background="lightblue").grid(row=0,column=0, pady=15)
 
     #imagen
     frameImagen = tk.Frame(frame) #frame para la imagen

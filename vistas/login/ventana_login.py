@@ -48,9 +48,10 @@ def ingresar():
     conexion=conectar()
     cursor=conexion.cursor()
 
-    sql="""SELECT usuario, password, nivel_usuario
-           FROM usuarios
-           WHERE usuario=%s"""
+    sql="""SELECT u.habilitado, u.usuario, u.contrasenia, r.rol, r.habilitado
+           FROM usuarios u
+           JOIN roles r ON u.id_rol = r.id
+           WHERE u.usuario=%s"""
 
     cursor.execute(sql, (usuario,))
     resultado = cursor.fetchone()
@@ -63,27 +64,44 @@ def ingresar():
         messagebox.showerror("Error", "Nombre de usuario o contraseña incorrecto")
         return
 
-    #el usuario existe, ahora ve si la contraseña es correcta
-    usuarioBD = resultado[0]
-    contraseniaBD = resultado[1]
-    nivel = resultado[2]
+    #el usuario existe, ahora ve si la contraseña es correcta o si está habilitado (no se borró)
+    habilitado_usuario=resultado[0]
+    usuarioBD = resultado[1]
+    contraseniaBD = resultado[2]
+    nivel = resultado[3]
+    habilitado_rol = resultado[4]
 
+    # Comprobar si el usuario está habilitado
+    if habilitado_usuario != 1: #el usuario ya se borró si es 0
+        messagebox.showerror("Error", "Nombre de usuario o contraseña incorrecto")
+        return
+
+    # Comprobar si la contraseña es correcta
     if contrasenia != contraseniaBD: #si no, da error
         messagebox.showerror("Error", "Nombre de usuario o contraseña incorrecto")
         return
 
-    ventana.destroy()
+    if habilitado_rol != 1: #el usuario ya se borró si es 0
+        messagebox.showerror("Error", "El rol de este usuario está deshabilitado")
+        return
+
     if nivel == "admin":
+        ventana.destroy()
         ventana_admin.abrir_ventana_admin()
     elif nivel == "gerente":
+        ventana.destroy()
         ventana_gerente.abrir_ventana_gerente()
     elif nivel == "empleado":
+        ventana.destroy()
         ventana_empleado.abrir_ventana_empleado()
     elif nivel == "cliente":
+        ventana.destroy()
         ventana_cliente.abrir_ventana_cliente()
     elif nivel == "proveedor":
+        ventana.destroy()
         ventana_proveedor.abrir_ventana_proveedor()
-
+    else:
+        messagebox.showerror( "Error","El rol asignado no tiene una ventana configurada")
 
 if __name__ == "__main__":
     abrir_ventana_login()
