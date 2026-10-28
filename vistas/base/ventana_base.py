@@ -112,49 +112,49 @@ def crear_menu(ventana, ventana_actual=None, fila=0, nivel_usuario=None):
 
 #funciones para abrir cada ventana
 def abrir_empleados(parent, nivel_usuario):
-    from ventana_empleados import VentanaEmpleados
+    from ventanas.ventana_empleados import VentanaEmpleados
     VentanaEmpleados(parent, nivel_usuario)
 
 def abrir_clientes(parent, nivel_usuario):
-    from ventana_clientes import VentanaClientes
+    from ventanas.ventana_clientes import VentanaClientes
     VentanaClientes(parent, nivel_usuario)
 
 def abrir_productos(parent, nivel_usuario):
-    from ventana_productos import VentanaProductos
+    from ventanas.ventana_productos import VentanaProductos
     VentanaProductos(parent, nivel_usuario)
 
 def abrir_proveedor(parent, nivel_usuario):
-    from ventana_proveedores import VentanaProveedores
+    from ventanas.ventana_proveedores import VentanaProveedores
     VentanaProveedores(parent, nivel_usuario)
 
 def abrir_ventas(parent, nivel_usuario):
-    from ventana_ventas import VentanaVentas
+    from ventanas.ventana_ventas import VentanaVentas
     VentanaVentas(parent, nivel_usuario)
 
 def abrir_vender(parent, nivel_usuario):
-    from ventana_vender import VentanaVender
+    from ventanas.ventana_vender import VentanaVender
     VentanaVender(parent, nivel_usuario)
 
 def abrir_gerentes(parent, nivel_usuario):
-    from ventana_gerentes import VentanaGerentes
+    from ventanas.ventana_gerentes import VentanaGerentes
     VentanaGerentes(parent, nivel_usuario)
 
 def abrir_admins(parent, nivel_usuario):
-    from ventana_admins import VentanaAdmins
+    from ventanas.ventana_admins import VentanaAdmins
     VentanaAdmins(parent, nivel_usuario)
 
 def abrir_compras(parent, nivel_usuario):
-    from ventana_compras import VentanaCompras
+    from ventanas.ventana_compras import VentanaCompras
     VentanaCompras(parent, nivel_usuario)
 
 def abrir_logins(parent, nivel_usuario):
-    from ventana_logins import VentanaLogins
+    from ventanas.ventana_logins import VentanaLogins
     VentanaLogins(parent, nivel_usuario)
 
 def abrir_comprar(parent, nivel_usuario):
-    from ventana_comprar import VentanaComprar
+    from ventanas.ventana_comprar import VentanaComprar
     VentanaComprar(parent, nivel_usuario)
 
 def abrir_gestionar(parent, nivel_usuario):
-    from ventana_gestionar import VentanaGestionar
+    from ventanas.ventana_gestionar import VentanaGestionar
     VentanaGestionar(parent, nivel_usuario)

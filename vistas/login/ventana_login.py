@@ -1,9 +1,5 @@
 import tkinter as tk
-import ventana_admin
-import ventana_gerente
-import ventana_empleado
-import ventana_cliente
-import ventana_proveedor
+from usuarios import ventana_admin, ventana_empleado, ventana_proveedor, ventana_cliente, ventana_gerente
 from tkinter import messagebox
 from conexion.conexion import *
 

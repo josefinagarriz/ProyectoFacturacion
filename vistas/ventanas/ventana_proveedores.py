@@ -1,36 +1,36 @@
 import tkinter as tk
 from tkinter import ttk
-from ventana_base import crear_menu
+from base.ventana_base import crear_menu
 from conexion.conexion import *
 
-class VentanaClientes(tk.Toplevel):
+class VentanaProveedores(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
-        self.title("Clientes")
+        self.title("Proveedores")
         self.geometry("1050x550")
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Clientes", nivel_usuario=nivel_usuario)
+        crear_menu(self, ventana_actual="Proveedores", nivel_usuario=nivel_usuario)
 
         # fuente reutilizable para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")
 
-        #Campos de formulario cliente
-        tk.Label(self, text="-Información sobre cliente:", font=fuenteTitulo).grid(row=2, column=0,columnspan=4, sticky="w", padx=10, pady=(12, 4))
+        # Campos de formulario proveedores
+        tk.Label(self, text="-Inserte información sobre proveedores:", font=fuenteTitulo).grid(row=2, column=0, columnspan=4, sticky="w", padx=10, pady=(12, 4))
 
         tk.Label(self, text="Nombre").grid(row=3, column=0, sticky="w", padx=(15, 2), pady=3)
         self.cajaNombre = tk.Entry(self, width=18)
         self.cajaNombre.grid(row=3, column=1, sticky="w", pady=3)
 
-        tk.Label(self, text="Apellido").grid(row=3, column=2, sticky="w", padx=(15, 2), pady=3)
-        self.cajaApellido = tk.Entry(self, width=18)
-        self.cajaApellido.grid(row=3, column=3, sticky="w", pady=3)
+        tk.Label(self, text="Página web").grid(row=3, column=2, sticky="w", padx=(15, 2), pady=3)
+        self.cajaPagina = tk.Entry(self, width=18)
+        self.cajaPagina.grid(row=3, column=3, sticky="w", pady=3)
 
-        tk.Label(self, text="DNI").grid(row=3, column=4, sticky="w", padx=(15, 2), pady=3)
-        self.cajaDNI = tk.Entry(self, width=18)
-        self.cajaDNI.grid(row=3, column=5, sticky="w", pady=3)
+        tk.Label(self, text="CUIT").grid(row=3, column=4, sticky="w", padx=(10, 2), pady=3)
+        self.cajaCUIT = tk.Entry(self, width=18)
+        self.cajaCUIT.grid(row=3, column=5, sticky="w", pady=3)
 
-        tk.Label(self, text="Razón social").grid(row=4, column=0, sticky="w", padx=(10, 2), pady=3)
+        tk.Label(self, text="Razón social").grid(row=4, column=0, sticky="w", padx=(15, 2), pady=3)
         self.cajaRazon = tk.Entry(self, width=18)
         self.cajaRazon.grid(row=4, column=1, sticky="w", pady=3)
 
@@ -54,24 +54,23 @@ class VentanaClientes(tk.Toplevel):
         self.cajaEmail = tk.Entry(self, width=18)
         self.cajaEmail.grid(row=5, column=5, sticky="w", pady=3)
 
-        # Botones de cliente
-        if nivel_usuario in ("admin", "gerente"):
-            botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
-            botonInsertar.grid(row=6, column=0, padx=15, pady=3, sticky="w")
+        # Botones de proveedores
+        botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
+        botonInsertar.grid(row=6, column=0, padx=15, pady=3, sticky="w")
 
-            botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
-            botonModificar.grid(row=6, column=1, padx=15, pady=3, sticky="w")
+        botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
+        botonModificar.grid(row=6, column=1, padx=15, pady=3, sticky="w")
 
-            botonEliminar = tk.Button(self, text="Eliminar", command=self.eliminar)
-            botonEliminar.grid(row=6, column=2, padx=15, pady=3, sticky="w")
+        botonEliminar = tk.Button(self, text="Eliminar", command=self.eliminar)
+        botonEliminar.grid(row=6, column=2, padx=15, pady=3, sticky="w")
 
         # separador
         ttk.Separator(self, orient="horizontal").grid(row=7, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
 
-        # tabla de clientes
-        tk.Label(self, text="-Tabla de clientes:", font=fuenteTitulo).grid(row=8, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
+        # tabla de proveedores
+        tk.Label(self, text="-Tabla de proveedores:", font=fuenteTitulo).grid(row=8, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
 
-        columnas = ("Id", "Nombre", "Apellido", "DNI", "Razón Social", "Ciudad", "Provincia","Teléfono", "Código Postal", "Email")
+        columnas = ("Id", "Nombre", "Página web", "CUIT", "Razón Social", "Ciudad", "Provincia", "Teléfono", "Código Postal", "Email")
         self.tabla = ttk.Treeview(self, columns=columnas, show="headings", height=10)
         for col in columnas:
             self.tabla.heading(col, text=col)
@@ -83,17 +82,19 @@ class VentanaClientes(tk.Toplevel):
 
         self.cargar_tabla()  # para que al abrir la ventana, aparezca lo que ya está en la tabla
 
-    #funcion para guardar clientes en tabla con boton insertar
+    # funcion para guardar proveedores en tabla con boton insertar
     def insertar(self):
+
+
         conex = conectar()
         cursor = conex.cursor()
-        sql = """INSERT INTO clientes(nombre, apellido, dni, razon_social, ciudad, provincia, telefono, codigo_postal, email)
+        sql = """INSERT INTO proveedores(nombre, pagina_web, cuit, razon_social, ciudad, provincia, telefono, codigo_postal, email)
                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
         valores = (
             self.cajaNombre.get(),
-            self.cajaApellido.get(),
-            self.cajaDNI.get(),
+            self.cajaPagina.get(),
+            self.cajaCUIT.get(),
             self.cajaRazon.get(),
             self.cajaCiudad.get(),
             self.cajaProv.get(),
@@ -119,8 +120,8 @@ class VentanaClientes(tk.Toplevel):
             self.tabla.delete(fila)
         conex = conectar()
         cursor = conex.cursor()
-        cursor.execute("""SELECT id, nombre, apellido, dni, razon_social, ciudad, provincia, telefono, codigo_postal, email
-                          FROM clientes""")
+        cursor.execute("""SELECT id, nombre, pagina_web, cuit, razon_social, ciudad, provincia, telefono, codigo_postal, email
+                          FROM proveedores""")
         registros = cursor.fetchall()
         for registro in registros:
             self.tabla.insert("", "end", values=registro)
@@ -139,8 +140,8 @@ class VentanaClientes(tk.Toplevel):
         self.limpiar_cajas()
 
         self.cajaNombre.insert(0,valores[1])
-        self.cajaApellido.insert(0,valores[2])
-        self.cajaDNI.insert(0,valores[3])
+        self.cajaPagina.insert(0,valores[2])
+        self.cajaCUIT.insert(0,valores[3])
         self.cajaRazon.insert(0,valores[4])
         self.cajaCiudad.insert(0,valores[5])
         self.cajaProv.insert(0,valores[6])
@@ -162,13 +163,13 @@ class VentanaClientes(tk.Toplevel):
         conex = conectar()
         cursor = conex.cursor()
 
-        sql = """UPDATE clientes SET nombre = %s, apellido = %s, dni = %s, razon_social = %s, ciudad = %s, provincia = %s, telefono = %s, codigo_postal = %s, email = %s
+        sql = """UPDATE proveedores SET nombre = %s, pagina_web = %s, cuit = %s, razon_social = %s, ciudad = %s, provincia = %s, telefono = %s, codigo_postal = %s, email = %s
                  WHERE id = %s """
 
         datos = (
             self.cajaNombre.get(),
-            self.cajaApellido.get(),
-            self.cajaDNI.get(),
+            self.cajaPagina.get(),
+            self.cajaCUIT.get(),
             self.cajaRazon.get(),
             self.cajaCiudad.get(),
             self.cajaProv.get(),
@@ -200,7 +201,7 @@ class VentanaClientes(tk.Toplevel):
         id = valores[0]
         conex = conectar()
         cursor = conex.cursor()
-        sql = """DELETE FROM clientes
+        sql = """DELETE FROM proveedores
                  WHERE id = %s """
 
         cursor.execute(sql, (id,))
@@ -215,14 +216,11 @@ class VentanaClientes(tk.Toplevel):
     #funcion para limpiar cajas
     def limpiar_cajas(self):
         self.cajaNombre.delete(0, tk.END)
-        self.cajaApellido.delete(0, tk.END)
-        self.cajaDNI.delete(0, tk.END)
+        self.cajaPagina.delete(0, tk.END)
+        self.cajaCUIT.delete(0, tk.END)
         self.cajaRazon.delete(0, tk.END)
         self.cajaCiudad.delete(0, tk.END)
         self.cajaProv.delete(0, tk.END)
         self.cajaTelef.delete(0, tk.END)
         self.cajaCodpost.delete(0, tk.END)
         self.cajaEmail.delete(0, tk.END)
-
-
-

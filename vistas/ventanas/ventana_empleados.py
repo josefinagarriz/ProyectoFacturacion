@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from ventana_base import crear_menu
+from base.ventana_base import crear_menu
 from conexion.conexion import *
 
 class VentanaEmpleados(tk.Toplevel):

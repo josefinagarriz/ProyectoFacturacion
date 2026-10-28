@@ -1,8 +1,7 @@
 import tkinter as tk
-from vistas.ventana_base import crear_menu
+from base.ventana_base import crear_menu
 
-
-def abrir_ventana_gerente():
+def abrir_ventana_admin():
     #Ventana principal
     ventana = tk.Tk()
     ventana.title("Almacén :)")
@@ -23,7 +22,7 @@ def abrir_ventana_gerente():
     frameImagen = tk.Frame(frame)  # frame para la imagen
     frameImagen.grid(row=1, column=0)
 
-    imagen = tk.PhotoImage(file="../assets/imag.png")
+    imagen = tk.PhotoImage(file="../../assets/imag.png")
     labelImagen = tk.Label(frameImagen, image=imagen, background="lightgreen", relief="ridge", bd=5)
     labelImagen.grid(row=0, column=0)
 
@@ -32,11 +31,10 @@ def abrir_ventana_gerente():
     frameMenu.grid(row=2, column=0, pady=15)
     frameMenu.configure(background="lightblue")
 
-    crear_menu(frameMenu, fila=0, nivel_usuario="gerente")
+    crear_menu(frameMenu, fila=0, nivel_usuario="admin")
 
     # Botón cerrar sesión
-    botonLogout = tk.Button(frame, text="Cerrar sesión", command=lambda: cerrar_sesion(ventana), background="white",
-                            width=15)
+    botonLogout = tk.Button(frame,text="Cerrar sesión",command= lambda: cerrar_sesion(ventana),background="white",width=15)
     botonLogout.grid(row=3, column=0, pady=15)
 
     # abrir ventana
@@ -45,5 +43,5 @@ def abrir_ventana_gerente():
 
 def cerrar_sesion(ventana):
     ventana.destroy()
-    import ventana_login
+    from login import ventana_login
     ventana_login.abrir_ventana_login()

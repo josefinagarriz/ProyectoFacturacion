@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from datetime import datetime
-from ventana_base import crear_menu
+from base.ventana_base import crear_menu
 from conexion.conexion import *
 from tkinter import messagebox
 

@@ -1,7 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
-from ventana_base import crear_menu
-from conexion.conexion import *
+from base.ventana_base import crear_menu
+
 
 class VentanaGestionar(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):

@@ -1,5 +1,5 @@
 import tkinter as tk
-from vistas.ventana_base import crear_menu
+from base.ventana_base import crear_menu
 
 
 def abrir_ventana_empleado():
@@ -23,7 +23,7 @@ def abrir_ventana_empleado():
     frameImagen = tk.Frame(frame) #frame para la imagen
     frameImagen.grid(row=1, column=0)
 
-    imagen = tk.PhotoImage(file="../assets/imag.png")
+    imagen = tk.PhotoImage(file="../../assets/imag.png")
     labelImagen = tk.Label(frameImagen, image=imagen, background="lightgreen", relief="ridge", bd=5)
     labelImagen.grid(row=0, column=0)
 
@@ -45,5 +45,5 @@ def abrir_ventana_empleado():
 
 def cerrar_sesion(ventana):
     ventana.destroy()
-    import ventana_login
+    from login import ventana_login
     ventana_login.abrir_ventana_login()
