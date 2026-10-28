@@ -2,17 +2,16 @@ import tkinter as tk
 from tkinter import ttk
 from ventana_base import crear_menu
 from conexion.conexion import *
-from ventana_datos_usuario import VentanaDatosUsuario
 
 
-class VentanaUsuarios(tk.Toplevel):
+class VentanaAdmins(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
-        self.title("Usuarios")
+        self.title("Admins")
         self.geometry("1050x550")
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Usuarios", nivel_usuario=nivel_usuario)
+        crear_menu(self, ventana_actual="Admins", nivel_usuario=nivel_usuario)
 
         # fuente reutilizable para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")
@@ -87,12 +86,6 @@ class VentanaUsuarios(tk.Toplevel):
 
             self.cargar_tabla()
             self.limpiar_cajas()
-
-        elif nivel == "empleado":
-            VentanaDatosUsuario(self,self.cajaNombre.get(),self.cajaContra.get(),nivel)
-
-        elif nivel == "gerente":
-            VentanaDatosUsuario(self,self.cajaNombre.get(),self.cajaContra.get(),nivel)
 
 
     def cargar_tabla(self):

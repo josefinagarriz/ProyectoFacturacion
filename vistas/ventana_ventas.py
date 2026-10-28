@@ -6,7 +6,10 @@ from conexion.conexion import *
 class VentanaVentas(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
-        self.title("Ventas")
+        if nivel_usuario == "cliente":
+            self.title("Compras")
+        else:
+            self.title("Ventas")
         self.geometry("800x600")
 
         # Botones de menú

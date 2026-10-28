@@ -5,14 +5,17 @@ from conexion.conexion import *
 from tkinter import messagebox
 from datetime import datetime
 
-class VentanaEntradas(tk.Toplevel):
+class VentanaCompras(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
-        self.title("Entradas")
+        if nivel_usuario == "proveedor":
+            self.title("Ventas")
+        else:
+            self.title("Compras")
         self.geometry("750x800")
 
         # Botones de menú
-        crear_menu(self, ventana_actual="Entradas", nivel_usuario=nivel_usuario)
+        crear_menu(self, ventana_actual="Compras", nivel_usuario=nivel_usuario)
 
         # fuentes reutilizables para dar jerarquía visual
         fuenteTitulo = ("Segoe UI", 10, "bold")

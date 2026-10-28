@@ -3,28 +3,80 @@ import tkinter as tk
 def crear_menu(ventana, ventana_actual=None, fila=0, nivel_usuario=None):
     #Agrega el menú de botones de navegación a cualquier ventana (Tk o Toplevel).
 
-    #botones fijos que se muestran para todos los usuarios
+    """
+    1: empleado
+    2: gerente
+    3: admin
+    4: cliente
+    5: proveedor
+    """
+
+    #botones para todos
     botones = [
-        ("Clientes", abrir_clientes),
-        ("Productos", abrir_productos),
-        ("Ventas", abrir_ventas),
-        ("Vender", abrir_vender),
+        ("Productos", abrir_productos)
     ]
 
-    #botones solo para admin y gerente
-    if nivel_usuario in ("admin", "gerente"):
+    #botones para 1, 2 y 3
+    if nivel_usuario in ("empleado","gerente", "admin"):
         botones.extend([
-            ("Empleados", abrir_empleados),
-            ("Proveedores", abrir_proveedor),
-            ("Entradas", abrir_entradas),
+            ("Clientes", abrir_clientes)
         ])
 
-    #boton solo para admin
+    #botones para 2 y 3
+    if nivel_usuario in ("gerente", "admin"):
+        botones.extend([
+            ("Comprar", abrir_comprar),
+            ("Proveedores", abrir_proveedor),
+            ("Logins", abrir_logins)
+        ])
+
+    #botones para 3
     if nivel_usuario == "admin":
         botones.extend([
-            ("Gerentes", abrir_gerentes),
-            ("Usuarios", abrir_usuarios),
+            ("Admins", abrir_admins),
+            ("Gestionar", abrir_gestionar)
         ])
+
+    #botones para 1, 2, 3 y 4
+    if nivel_usuario in ("empleado", "gerente", "admin","cliente"):
+        if nivel_usuario == "cliente":
+            botones.extend([
+                ("Compras", abrir_ventas)
+            ])
+        else:
+            botones.extend([
+                ("Ventas", abrir_ventas)
+            ])
+
+    #botones para 1 y 3
+    if nivel_usuario in ("empleado", "admin"):
+        botones.extend([
+            ("Vender", abrir_vender)
+        ])
+
+    #botones para 2, 3 y 5
+    if nivel_usuario in ("gerente", "admin", "proveedor"):
+        if nivel_usuario == "proveedor":
+            botones.extend([
+                ("Ventas", abrir_compras)
+            ])
+        else:
+            botones.extend([
+                ("Compras", abrir_compras)
+            ])
+
+    #botones para 2, 3 y 4
+    if nivel_usuario in ("gerente", "admin", "cliente"):
+        botones.extend([
+            ("Empleados", abrir_empleados)
+        ])
+
+    #botones para 3 y 5
+    if nivel_usuario in ("admin", "proveedor"):
+        botones.extend([
+            ("Gerentes", abrir_gerentes)
+        ])
+
 
     # Organizar los botones en filas de 4
     columnas = 4
@@ -87,10 +139,22 @@ def abrir_gerentes(parent, nivel_usuario):
     from ventana_gerentes import VentanaGerentes
     VentanaGerentes(parent, nivel_usuario)
 
-def abrir_usuarios(parent, nivel_usuario):
-    from ventana_usuarios import VentanaUsuarios
-    VentanaUsuarios(parent, nivel_usuario)
+def abrir_admins(parent, nivel_usuario):
+    from ventana_admins import VentanaAdmins
+    VentanaAdmins(parent, nivel_usuario)
 
-def abrir_entradas(parent, nivel_usuario):
-    from ventana_entradas import VentanaEntradas
-    VentanaEntradas(parent, nivel_usuario)
+def abrir_compras(parent, nivel_usuario):
+    from ventana_compras import VentanaCompras
+    VentanaCompras(parent, nivel_usuario)
+
+def abrir_logins(parent, nivel_usuario):
+    from ventana_logins import VentanaLogins
+    VentanaLogins(parent, nivel_usuario)
+
+def abrir_comprar(parent, nivel_usuario):
+    from ventana_comprar import VentanaComprar
+    VentanaComprar(parent, nivel_usuario)
+
+def abrir_gestionar(parent, nivel_usuario):
+    from ventana_gestionar import VentanaGestionar
+    VentanaGestionar(parent, nivel_usuario)
