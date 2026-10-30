@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from base.ventana_base import crear_menu
 from conexion.conexion import *
 
@@ -7,81 +7,321 @@ class VentanaClientes(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
         super().__init__(parent)
         self.title("Clientes")
-        self.geometry("1050x550")
-
-        # Botones de menú
-        crear_menu(self, ventana_actual="Clientes", nivel_usuario=nivel_usuario)
+        self.geometry("1200x650")
 
         # fuente reutilizable para dar jerarquía visual
-        fuenteTitulo = ("Segoe UI", 10, "bold")
+        fuenteTitulo = ("Segoe UI",10, "bold")
+
+        # Frame principal centrado
+        self.configure(background="lightblue")
+
+        self.framePrincipal = tk.Frame(self, background="lightblue",relief="ridge",bd=4,padx=20,pady=15)
+        self.framePrincipal.place(relx=0.5,rely=0.5,anchor="center")
+
+        # Menú de navegación
+        self.frameMenu = tk.Frame(self.framePrincipal,background="lightblue")
+        self.frameMenu.grid(row=1, column=0, columnspan=4, pady=(0, 15))
+        crear_menu(self.frameMenu,ventana_actual="Clientes",nivel_usuario=nivel_usuario)
 
         #Campos de formulario cliente
-        tk.Label(self, text="-Información sobre cliente:", font=fuenteTitulo).grid(row=2, column=0,columnspan=4, sticky="w", padx=10, pady=(12, 4))
+        tk.Label(self.framePrincipal, text="-Información sobre cliente:", font=fuenteTitulo, background="lightblue").grid(row=2, column=0, columnspan=4, sticky="w", pady=(5, 10))
 
-        tk.Label(self, text="Nombre").grid(row=3, column=0, sticky="w", padx=(15, 2), pady=3)
-        self.cajaNombre = tk.Entry(self, width=18)
-        self.cajaNombre.grid(row=3, column=1, sticky="w", pady=3)
+        tk.Label(self.framePrincipal, text="Nombre", background="lightblue").grid(row=3, column=0, padx=5, pady=5, sticky="e")
+        self.cajaNombre = tk.Entry(self.framePrincipal, width=22)
+        self.cajaNombre.grid(row=3, column=1, padx=5, pady=5)
 
-        tk.Label(self, text="Apellido").grid(row=3, column=2, sticky="w", padx=(15, 2), pady=3)
-        self.cajaApellido = tk.Entry(self, width=18)
-        self.cajaApellido.grid(row=3, column=3, sticky="w", pady=3)
+        tk.Label(self.framePrincipal, text="Razón social", background="lightblue").grid(row=3, column=2, padx=5, pady=5, sticky="e")
+        self.cajaRazon = tk.Entry(self.framePrincipal, width=22)
+        self.cajaRazon.grid(row=3, column=3, padx=5, pady=5)
 
-        tk.Label(self, text="DNI").grid(row=3, column=4, sticky="w", padx=(15, 2), pady=3)
-        self.cajaDNI = tk.Entry(self, width=18)
-        self.cajaDNI.grid(row=3, column=5, sticky="w", pady=3)
+        tk.Label(self.framePrincipal, text="CUIT", background="lightblue").grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.cajaCUIT = tk.Entry(self.framePrincipal, width=22)
+        self.cajaCUIT.grid(row=4, column=1, padx=5, pady=5)
 
-        tk.Label(self, text="Razón social").grid(row=4, column=0, sticky="w", padx=(10, 2), pady=3)
-        self.cajaRazon = tk.Entry(self, width=18)
-        self.cajaRazon.grid(row=4, column=1, sticky="w", pady=3)
+        tk.Label(self.framePrincipal, text="Página web", background="lightblue").grid(row=4, column=2, padx=5, pady=5, sticky="e")
+        self.cajaWeb = tk.Entry(self.framePrincipal, width=22)
+        self.cajaWeb.grid(row=4, column=3, padx=5, pady=5)
 
-        tk.Label(self, text="Ciudad").grid(row=4, column=2, sticky="w", padx=(15, 2), pady=3)
-        self.cajaCiudad = tk.Entry(self, width=18)
-        self.cajaCiudad.grid(row=4, column=3, sticky="w", pady=3)
 
-        tk.Label(self, text="Provincia").grid(row=4, column=4, sticky="w", padx=(15, 2), pady=3)
-        self.cajaProv = tk.Entry(self, width=18)
-        self.cajaProv.grid(row=4, column=5, sticky="w", pady=3)
-
-        tk.Label(self, text="Teléfono").grid(row=5, column=0, sticky="w", padx=(10, 2), pady=3)
-        self.cajaTelef = tk.Entry(self, width=18)
-        self.cajaTelef.grid(row=5, column=1, sticky="w", pady=3)
-
-        tk.Label(self, text="Código postal").grid(row=5, column=2, sticky="w", padx=(15, 2), pady=3)
-        self.cajaCodpost = tk.Entry(self, width=18)
-        self.cajaCodpost.grid(row=5, column=3, sticky="w", pady=3)
-
-        tk.Label(self, text="Email").grid(row=5, column=4, sticky="w", padx=(15, 2), pady=3)
-        self.cajaEmail = tk.Entry(self, width=18)
-        self.cajaEmail.grid(row=5, column=5, sticky="w", pady=3)
 
         # Botones de cliente
         if nivel_usuario in ("admin", "gerente"):
-            botonInsertar = tk.Button(self, text="Insertar", command=self.insertar)
-            botonInsertar.grid(row=6, column=0, padx=15, pady=3, sticky="w")
+            frameBotones = tk.Frame(self.framePrincipal, background="lightblue")
+            frameBotones.grid(row=5, column=0, columnspan=4, pady=12)
 
-            botonModificar = tk.Button(self, text="Modificar", command=self.modificar)
-            botonModificar.grid(row=6, column=1, padx=15, pady=3, sticky="w")
+            botonInsertar = tk.Button(frameBotones, text="Insertar", background="white", width=12, command=self.insertar)
+            botonInsertar.grid(row=0, column=0, padx=8)
 
-            botonEliminar = tk.Button(self, text="Eliminar", command=self.eliminar)
-            botonEliminar.grid(row=6, column=2, padx=15, pady=3, sticky="w")
+            botonModificar = tk.Button(frameBotones, text="Modificar", background="white", width=12, command=self.modificar)
+            botonModificar.grid(row=0, column=1, padx=8)
+
+            botonEliminar = tk.Button(frameBotones, text="Eliminar", background="white", width=12, command=self.eliminar)
+            botonEliminar.grid(row=0, column=2, padx=8)
 
         # separador
-        ttk.Separator(self, orient="horizontal").grid(row=7, column=0, columnspan=7, sticky="ew", padx=10, pady=8)
+        ttk.Separator(self.framePrincipal, orient="horizontal").grid(row=6, column=0, columnspan=4, sticky="ew", pady=10)
 
         # tabla de clientes
-        tk.Label(self, text="-Tabla de clientes:", font=fuenteTitulo).grid(row=8, column=0, columnspan=4, sticky="w", padx=10, pady=(0, 4))
+        tk.Label(self.framePrincipal, text="-Tabla de clientes:", font=fuenteTitulo, background="lightblue").grid(row=7, column=0, columnspan=4, sticky="w", pady=(0, 5))
 
-        columnas = ("Id", "Nombre", "Apellido", "DNI", "Razón Social", "Ciudad", "Provincia","Teléfono", "Código Postal", "Email")
-        self.tabla = ttk.Treeview(self, columns=columnas, show="headings", height=10)
+
+
+
+        columnas = ("Id", "Nombre", "Razón social", "CUIT", "Página web", "Compras", "Mails", "Redes", "Teléfonos", "Ubicaciones")
+        self.tabla = ttk.Treeview(self.framePrincipal, columns=columnas, show="headings", height=10)
+        anchos = {"Id": 45, "Nombre": 120, "Razón social": 140, "CUIT": 100, "Página web": 140,"Compras": 65, "Mails": 90,"Redes": 90, "Teléfonos": 100,"Ubicaciones": 110 }
         for col in columnas:
             self.tabla.heading(col, text=col)
-            self.tabla.column(col, width=100)
-        self.tabla.grid(row=9, column=0, columnspan=7, padx=10, sticky="ew")
+            self.tabla.column(col, width=anchos[col], anchor="center")
+        self.tabla.grid(row=8, column=0, columnspan=4,padx=5, pady=5)
+
+        # Doble clic en una celda para ver sus detalles
+        self.tabla.bind("<Double-1>",self.ver_detalles)
 
         # Para que al seleccionar una fila, su info aparezca en las cajas
         self.tabla.bind("<<TreeviewSelect>>", self.seleccionar)
 
         self.cargar_tabla()  # para que al abrir la ventana, aparezca lo que ya está en la tabla
+
+
+    # Carga solamente clientes y usuarios habilitados
+    def cargar_tabla(self):
+
+        for fila in self.tabla.get_children():
+            self.tabla.delete(fila)
+
+        conex = conectar()
+        cursor = conex.cursor()
+
+        sql = """
+                SELECT
+                    c.id,
+                    c.nombre,
+                    c.razon_social,
+                    c.cuit,
+                    c.pagina_web,
+                    c.compras,
+                    (
+                        SELECT COUNT(*)
+                        FROM usuarios_mails um
+                        WHERE um.id_usuario = c.id_usuario
+                          AND um.habilitado = 1
+                    ) AS cantidad_mails,
+                    (
+                        SELECT COUNT(*)
+                        FROM usuarios_redes ur
+                        WHERE ur.id_usuario = c.id_usuario
+                          AND ur.habilitado = 1
+                    ) AS cantidad_redes,
+                    (
+                        SELECT COUNT(*)
+                        FROM usuarios_telefonos ut
+                        WHERE ut.id_usuario = c.id_usuario
+                          AND ut.habilitado = 1
+                    ) AS cantidad_telefonos,
+                    (
+                        SELECT COUNT(*)
+                        FROM usuarios_ubicaciones uu
+                        WHERE uu.id_usuario = c.id_usuario
+                          AND uu.habilitado = 1
+                    ) AS cantidad_ubicaciones
+                FROM clientes c
+                INNER JOIN usuarios u
+                    ON u.id = c.id_usuario
+                WHERE c.habilitado = 1
+                  AND u.habilitado = 1
+                ORDER BY c.id
+            """
+        try:
+            cursor.execute(sql)
+            registros = cursor.fetchall()
+
+            for registro in registros:
+                valores = list(registro)
+
+                # Convertir cantidades en textos más claros
+                valores[6] = f"{valores[6]} mail(s) ▾"
+                valores[7] = f"{valores[7]} red(es) ▾"
+                valores[8] = f"{valores[8]} teléfono(s) ▾"
+                valores[9] = f"{valores[9]} ubicación(es) ▾"
+
+                self.tabla.insert("", "end", values=valores)
+
+        except Exception as e:
+            messagebox.showerror("Error",f"No se pudieron cargar los clientes:\n{e}")
+
+        finally:
+            cursor.close()
+            conex.close()
+
+    # Muestra los datos del cliente seleccionado en las cajas
+    def seleccionar(self, event):
+
+        seleccion = self.tabla.selection()
+        if not seleccion:
+            return
+
+        valores = self.tabla.item(seleccion[0], "values")
+
+        self.limpiar_cajas()
+        self.cajaNombre.insert(0, valores[1])
+        self.cajaRazon.insert(0, valores[2])
+        self.cajaCUIT.insert(0, valores[3])
+        self.cajaWeb.insert(0, valores[4])
+
+    # Abre los detalles al hacer doble clic en una celda
+    def ver_detalles(self, event):
+
+        fila = self.tabla.identify_row(event.y)
+        columna = self.tabla.identify_column(event.x)
+
+        if not fila:
+            return
+
+        valores = self.tabla.item(fila, "values")
+        id_cliente = valores[0]
+
+        # Obtener el id_usuario correspondiente al cliente
+        conex = conectar()
+        cursor = conex.cursor()
+
+        try:
+            cursor.execute(
+                """
+                SELECT id_usuario
+                FROM clientes
+                WHERE id = %s
+                """,
+                (id_cliente,)
+            )
+
+            resultado = cursor.fetchone()
+
+            if resultado is None:
+                return
+
+            id_usuario = resultado[0]
+
+        finally:
+            cursor.close()
+            conex.close()
+
+        # Las columnas 7, 8, 9 y 10 contienen los contactos
+        tipos = {
+            "#7": ("Mails", "usuarios_mails", "id_mail"),
+            "#8": ("Redes sociales", "usuarios_redes", "id_red"),
+            "#9": ("Teléfonos", "usuarios_telefonos", "id_telefono"),
+            "#10": ("Ubicaciones", "usuarios_ubicaciones", None)
+        }
+
+        if columna not in tipos:
+            return
+
+        titulo, tabla_relacion, atributo = tipos[columna]
+
+        if titulo == "Ubicaciones":
+            self.mostrar_ubicaciones(id_usuario)
+        else:
+            self.mostrar_ids_relacionados(id_usuario,titulo,tabla_relacion,atributo)
+
+    # Muestra los IDs asociados mientras conectamos cada relación con los datos descriptivos de su tabla
+    def mostrar_ids_relacionados(self, id_usuario, titulo, tabla_relacion, atributo):
+
+        conex = conectar()
+        cursor = conex.cursor()
+
+        try:
+            sql = f"""
+                SELECT {atributo}
+                FROM {tabla_relacion}
+                WHERE id_usuario = %s
+                  AND habilitado = 1
+            """
+
+            cursor.execute(sql, (id_usuario,))
+            registros = cursor.fetchall()
+
+        finally:
+            cursor.close()
+            conex.close()
+
+        self.abrir_ventana_detalles( titulo,[str(registro[0]) for registro in registros])
+
+    # Ubicaciones: ya conocemos las columnas de estas tablas
+    def mostrar_ubicaciones(self, id_usuario):
+
+        conex = conectar()
+        cursor = conex.cursor()
+
+        try:
+            sql = """
+                SELECT
+                    p.pais,
+                    pr.provincia,
+                    ci.ciudad,
+                    uu.direccion,
+                    uu.codigo_postal
+                FROM usuarios_ubicaciones uu
+                LEFT JOIN paises p
+                    ON p.id = uu.id_pais
+                LEFT JOIN provincias pr
+                    ON pr.id = uu.id_provincia
+                LEFT JOIN ciudades ci
+                    ON ci.id = uu.id_ciudad
+                WHERE uu.id_usuario = %s
+                  AND uu.habilitado = 1
+            """
+
+            cursor.execute(sql, (id_usuario,))
+            registros = cursor.fetchall()
+
+        finally:
+            cursor.close()
+            conex.close()
+
+        detalles = []
+
+        for pais, provincia, ciudad, direccion, cp in registros:
+            detalles.append(
+                f"País: {pais or '-'}\n"
+                f"Provincia: {provincia or '-'}\n"
+                f"Ciudad: {ciudad or '-'}\n"
+                f"Dirección: {direccion or '-'}\n"
+                f"Código postal: {cp or '-'}"
+            )
+
+        self.abrir_ventana_detalles("Ubicaciones", detalles)
+
+    # Ventana emergente con los valores
+    def abrir_ventana_detalles(self, titulo, detalles):
+
+        ventanaDetalle = tk.Toplevel(self)
+        ventanaDetalle.title(titulo)
+        ventanaDetalle.geometry("420x300")
+        ventanaDetalle.transient(self)
+
+        frame = tk.Frame( ventanaDetalle, padx=15,pady=15)
+        frame.pack(fill="both", expand=True)
+
+        tk.Label(frame,text=titulo, font=("Segoe UI", 12, "bold")).pack(pady=(0, 10))
+
+        lista = tk.Listbox(frame, width=50, height=10)
+        lista.pack(fill="both", expand=True)
+
+        if detalles:
+            for detalle in detalles:
+                lista.insert(tk.END, detalle)
+        else:
+            lista.insert(tk.END, "No hay datos habilitados.")
+
+        tk.Button( frame, text="Cerrar",command=ventanaDetalle.destroy ).pack(pady=(10, 0))
+
+    # Limpia los campos del formulario
+    def limpiar_cajas(self):
+        self.cajaNombre.delete(0, tk.END)
+        self.cajaRazon.delete(0, tk.END)
+        self.cajaCUIT.delete(0, tk.END)
+        self.cajaWeb.delete(0, tk.END)
 
     #funcion para guardar clientes en tabla con boton insertar
     def insertar(self):
@@ -114,39 +354,6 @@ class VentanaClientes(tk.Toplevel):
         # limpiar las cajas después de insertar
         self.limpiar_cajas()
 
-    def cargar_tabla(self):
-        for fila in self.tabla.get_children():
-            self.tabla.delete(fila)
-        conex = conectar()
-        cursor = conex.cursor()
-        cursor.execute("""SELECT id, nombre, apellido, dni, razon_social, ciudad, provincia, telefono, codigo_postal, email
-                          FROM clientes""")
-        registros = cursor.fetchall()
-        for registro in registros:
-            self.tabla.insert("", "end", values=registro)
-        cursor.close()
-        conex.close()
-
-    #funcion para seleccionar fila en tabla
-    def seleccionar(self, event):
-        seleccion=self.tabla.selection()
-        if not seleccion:
-            return
-
-        fila=seleccion[0]
-        valores=self.tabla.item(fila,"values")
-
-        self.limpiar_cajas()
-
-        self.cajaNombre.insert(0,valores[1])
-        self.cajaApellido.insert(0,valores[2])
-        self.cajaDNI.insert(0,valores[3])
-        self.cajaRazon.insert(0,valores[4])
-        self.cajaCiudad.insert(0,valores[5])
-        self.cajaProv.insert(0,valores[6])
-        self.cajaTelef.insert(0,valores[7])
-        self.cajaCodpost.insert(0,valores[8])
-        self.cajaEmail.insert(0,valores[9])
 
     #funcion para modificar fila en tabla
     def modificar(self):
@@ -212,17 +419,7 @@ class VentanaClientes(tk.Toplevel):
         # limpiar las cajas después de eliminar
         self.limpiar_cajas()
 
-    #funcion para limpiar cajas
-    def limpiar_cajas(self):
-        self.cajaNombre.delete(0, tk.END)
-        self.cajaApellido.delete(0, tk.END)
-        self.cajaDNI.delete(0, tk.END)
-        self.cajaRazon.delete(0, tk.END)
-        self.cajaCiudad.delete(0, tk.END)
-        self.cajaProv.delete(0, tk.END)
-        self.cajaTelef.delete(0, tk.END)
-        self.cajaCodpost.delete(0, tk.END)
-        self.cajaEmail.delete(0, tk.END)
+
 
 
 

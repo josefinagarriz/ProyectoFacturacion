@@ -20,8 +20,8 @@ def abrir_ventana_login():
     frameLogin.place(relx=0.5, rely=0.5, anchor="center")
 
     # titulo
-    tk.Label(frameLogin, text="LOGIN", font=fuenteTitulo, background="lightgreen").grid(row=0, column=0, columnspan=2,
-                                                                                        pady=15)
+    tk.Label(frameLogin, text="LOGIN", font=fuenteTitulo, background="lightgreen").grid(row=0, column=0, columnspan=2,pady=15)
+
     #usuario
     tk.Label(frameLogin, text="Usuario", background="lightgreen").grid(row=1, column=0, padx=10, pady=8, sticky="e")
     cajaUsuario = tk.Entry(frameLogin, width=22)
