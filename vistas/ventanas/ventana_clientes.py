@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from base.ventana_base import crear_menu
 from conexion.conexion import *
+from subventanas.ventana_usuario_mails import VentanaUsuarioMails
+from subventanas.ventana_usuario_redes import VentanaUsuarioRedes
+from subventanas.ventana_usuario_telefonos import VentanaUsuarioTelefonos
+from subventanas.ventana_usuario_ubicaciones import VentanaUsuarioUbicaciones
 
 class VentanaClientes(tk.Toplevel):
     def __init__(self, parent, nivel_usuario):
@@ -13,39 +17,35 @@ class VentanaClientes(tk.Toplevel):
         fuenteTitulo = ("Segoe UI",10, "bold")
 
         # Frame principal centrado
-        self.configure(background="lightblue")
+        self.configure(background="lightgreen")
 
         self.framePrincipal = tk.Frame(self, background="lightblue",relief="ridge",bd=4,padx=20,pady=15)
         self.framePrincipal.place(relx=0.5,rely=0.5,anchor="center")
 
-        # Menú de navegación
-        self.frameMenu = tk.Frame(self.framePrincipal,background="lightblue")
-        self.frameMenu.grid(row=1, column=0, columnspan=4, pady=(0, 15))
-        crear_menu(self.frameMenu,ventana_actual="Clientes",nivel_usuario=nivel_usuario)
-
-        #Campos de formulario cliente
-        tk.Label(self.framePrincipal, text="-Información sobre cliente:", font=fuenteTitulo, background="lightblue").grid(row=2, column=0, columnspan=4, sticky="w", pady=(5, 10))
-
-        tk.Label(self.framePrincipal, text="Nombre", background="lightblue").grid(row=3, column=0, padx=5, pady=5, sticky="e")
-        self.cajaNombre = tk.Entry(self.framePrincipal, width=22)
-        self.cajaNombre.grid(row=3, column=1, padx=5, pady=5)
-
-        tk.Label(self.framePrincipal, text="Razón social", background="lightblue").grid(row=3, column=2, padx=5, pady=5, sticky="e")
-        self.cajaRazon = tk.Entry(self.framePrincipal, width=22)
-        self.cajaRazon.grid(row=3, column=3, padx=5, pady=5)
-
-        tk.Label(self.framePrincipal, text="CUIT", background="lightblue").grid(row=4, column=0, padx=5, pady=5, sticky="e")
-        self.cajaCUIT = tk.Entry(self.framePrincipal, width=22)
-        self.cajaCUIT.grid(row=4, column=1, padx=5, pady=5)
-
-        tk.Label(self.framePrincipal, text="Página web", background="lightblue").grid(row=4, column=2, padx=5, pady=5, sticky="e")
-        self.cajaWeb = tk.Entry(self.framePrincipal, width=22)
-        self.cajaWeb.grid(row=4, column=3, padx=5, pady=5)
-
-
+        # Título
+        tk.Label(self.framePrincipal,text="CLIENTES",font=fuenteTitulo,background="lightblue").grid(row=0, column=0, columnspan=4, pady=(0, 15))
 
         # Botones de cliente
         if nivel_usuario in ("admin", "gerente"):
+            #Campos de formulario cliente
+            tk.Label(self.framePrincipal, text="-Cliente selccionadao:", font=fuenteTitulo, background="lightblue").grid(row=2, column=0, columnspan=4, sticky="w", pady=(5, 10))
+
+            tk.Label(self.framePrincipal, text="Nombre", background="lightblue").grid(row=3, column=0, padx=5, pady=5, sticky="e")
+            self.cajaNombre = tk.Entry(self.framePrincipal, width=22)
+            self.cajaNombre.grid(row=3, column=1, padx=5, pady=5)
+
+            tk.Label(self.framePrincipal, text="Razón social", background="lightblue").grid(row=3, column=2, padx=5, pady=5, sticky="e")
+            self.cajaRazon = tk.Entry(self.framePrincipal, width=22)
+            self.cajaRazon.grid(row=3, column=3, padx=5, pady=5)
+
+            tk.Label(self.framePrincipal, text="CUIT", background="lightblue").grid(row=4, column=0, padx=5, pady=5, sticky="e")
+            self.cajaCUIT = tk.Entry(self.framePrincipal, width=22)
+            self.cajaCUIT.grid(row=4, column=1, padx=5, pady=5)
+
+            tk.Label(self.framePrincipal, text="Página web", background="lightblue").grid(row=4, column=2, padx=5, pady=5, sticky="e")
+            self.cajaWeb = tk.Entry(self.framePrincipal, width=22)
+            self.cajaWeb.grid(row=4, column=3, padx=5, pady=5)
+
             frameBotones = tk.Frame(self.framePrincipal, background="lightblue")
             frameBotones.grid(row=5, column=0, columnspan=4, pady=12)
 
@@ -181,7 +181,6 @@ class VentanaClientes(tk.Toplevel):
         valores = self.tabla.item(fila, "values")
         id_cliente = valores[0]
 
-        # Obtener el id_usuario correspondiente al cliente
         conex = conectar()
         cursor = conex.cursor()
 
@@ -206,115 +205,18 @@ class VentanaClientes(tk.Toplevel):
             cursor.close()
             conex.close()
 
-        # Las columnas 7, 8, 9 y 10 contienen los contactos
-        tipos = {
-            "#7": ("Mails", "usuarios_mails", "id_mail"),
-            "#8": ("Redes sociales", "usuarios_redes", "id_red"),
-            "#9": ("Teléfonos", "usuarios_telefonos", "id_telefono"),
-            "#10": ("Ubicaciones", "usuarios_ubicaciones", None)
-        }
+        # Abrir la subventana correspondiente
+        if columna == "#7":
+            VentanaUsuarioMails(self, id_usuario)
 
-        if columna not in tipos:
-            return
+        elif columna == "#8":
+            VentanaUsuarioRedes(self, id_usuario)
 
-        titulo, tabla_relacion, atributo = tipos[columna]
+        elif columna == "#9":
+            VentanaUsuarioTelefonos(self, id_usuario)
 
-        if titulo == "Ubicaciones":
-            self.mostrar_ubicaciones(id_usuario)
-        else:
-            self.mostrar_ids_relacionados(id_usuario,titulo,tabla_relacion,atributo)
-
-    # Muestra los IDs asociados mientras conectamos cada relación con los datos descriptivos de su tabla
-    def mostrar_ids_relacionados(self, id_usuario, titulo, tabla_relacion, atributo):
-
-        conex = conectar()
-        cursor = conex.cursor()
-
-        try:
-            sql = f"""
-                SELECT {atributo}
-                FROM {tabla_relacion}
-                WHERE id_usuario = %s
-                  AND habilitado = 1
-            """
-
-            cursor.execute(sql, (id_usuario,))
-            registros = cursor.fetchall()
-
-        finally:
-            cursor.close()
-            conex.close()
-
-        self.abrir_ventana_detalles( titulo,[str(registro[0]) for registro in registros])
-
-    # Ubicaciones: ya conocemos las columnas de estas tablas
-    def mostrar_ubicaciones(self, id_usuario):
-
-        conex = conectar()
-        cursor = conex.cursor()
-
-        try:
-            sql = """
-                SELECT
-                    p.pais,
-                    pr.provincia,
-                    ci.ciudad,
-                    uu.direccion,
-                    uu.codigo_postal
-                FROM usuarios_ubicaciones uu
-                LEFT JOIN paises p
-                    ON p.id = uu.id_pais
-                LEFT JOIN provincias pr
-                    ON pr.id = uu.id_provincia
-                LEFT JOIN ciudades ci
-                    ON ci.id = uu.id_ciudad
-                WHERE uu.id_usuario = %s
-                  AND uu.habilitado = 1
-            """
-
-            cursor.execute(sql, (id_usuario,))
-            registros = cursor.fetchall()
-
-        finally:
-            cursor.close()
-            conex.close()
-
-        detalles = []
-
-        for pais, provincia, ciudad, direccion, cp in registros:
-            detalles.append(
-                f"País: {pais or '-'}\n"
-                f"Provincia: {provincia or '-'}\n"
-                f"Ciudad: {ciudad or '-'}\n"
-                f"Dirección: {direccion or '-'}\n"
-                f"Código postal: {cp or '-'}"
-            )
-
-        self.abrir_ventana_detalles("Ubicaciones", detalles)
-
-    # Ventana emergente con los valores
-    def abrir_ventana_detalles(self, titulo, detalles):
-
-        ventanaDetalle = tk.Toplevel(self)
-        ventanaDetalle.title(titulo)
-        ventanaDetalle.geometry("420x300")
-        ventanaDetalle.transient(self)
-
-        frame = tk.Frame( ventanaDetalle, padx=15,pady=15)
-        frame.pack(fill="both", expand=True)
-
-        tk.Label(frame,text=titulo, font=("Segoe UI", 12, "bold")).pack(pady=(0, 10))
-
-        lista = tk.Listbox(frame, width=50, height=10)
-        lista.pack(fill="both", expand=True)
-
-        if detalles:
-            for detalle in detalles:
-                lista.insert(tk.END, detalle)
-        else:
-            lista.insert(tk.END, "No hay datos habilitados.")
-
-        tk.Button( frame, text="Cerrar",command=ventanaDetalle.destroy ).pack(pady=(10, 0))
+        elif columna == "#10":
+            VentanaUsuarioUbicaciones(self, id_usuario)
 
     # Limpia los campos del formulario
     def limpiar_cajas(self):
